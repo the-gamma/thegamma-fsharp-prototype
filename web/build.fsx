@@ -84,6 +84,9 @@ Target "Build" ignore
 Target "Deploy" (fun _ ->
   let sourceDirectory = __SOURCE_DIRECTORY__
   let wwwrootDirectory = __SOURCE_DIRECTORY__ @@ "../../wwwroot"
+  //CleanDir wwwrootDirectory
+  CopyRecursive sourceDirectory wwwrootDirectory true |> ignore
+(*
   try
     DeleteDir wwwrootDirectory
     CreateDir wwwrootDirectory
@@ -94,6 +97,7 @@ Target "Deploy" (fun _ ->
   with e ->
     printfn "Copying files failed with: %A" e
     reraise()
+*)
 )
 
 RunTargetOrDefault "Run"
