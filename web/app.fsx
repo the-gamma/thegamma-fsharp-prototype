@@ -152,7 +152,8 @@ let app =
       //Visualizers.webPart checker
       //path "/demo" >>= demo
       //path "/"
-      staticWebFile ]
+      staticWebFile
+      RequestErrors.NOT_FOUND("Not found") ]
 
 // -------------------------------------------------------------------------------------------------
 // To run the web site, you can use `build.sh` or `build.cmd` script, which is nice because it
