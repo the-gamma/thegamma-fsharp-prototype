@@ -1,0 +1,269 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Rufina:300,400,700|Pontano+Sans:400,700,400italic);
+
+/****************************** Fancy header with a fancy effect *******************************/
+header{
+  position: fixed;
+  width: 100%;
+  height: 110px;
+  background: black;
+  color: white;
+  transition:all 1s;
+  z-index:100;
+  border-bottom:10px solid white;
+}
+header.scrolled {
+  height:70px;
+  padding-top: 0px;
+}
+header h1 {
+  font:bold 40pt Rufina,'Times New Roman', Times, serif;
+  color:white;
+  padding:0px;
+  margin:15px 0px 0px 0px;
+  transition:all 1s;
+}
+header.scrolled h1 {
+  font:bold 20pt Rufina,'Times New Roman', Times, serif;
+  color:white;
+}
+#main {
+  position:relative;
+  top:140px;
+  transition:top 1s;
+}
+header .icons {
+  text-align:right;
+}
+header .icons a, header .icons a:visited, header .icons a:hover {
+  border-radius:20px;
+  background:white;
+  padding:2px 7px 0px 0px; 
+  display:block; 
+  width:40px; 
+  height:40px; 
+  font-size:25px;
+  float:right;
+  color:black;
+  margin:30px 20px 0px 0px;
+  transition:all 1s;
+}
+header.scrolled .icons a {
+  border-radius:15px;
+  padding:0px 4px 0px 0px; 
+  width:30px; 
+  height:30px; 
+  font-size:20px;
+  margin-top:15px;
+}
+
+/****************************** Editor wrapper and output *******************************/
+
+/* Wrapper around the Markdown editor */
+.doc-wrapper {
+  background:white; 
+  border:1px solid #e0e0e0; 
+  border-radius:2px;
+  margin:20px;
+  padding:10px 10px 5px 10px;
+}
+.cm-header {
+  color:#d0d0d0 !important;
+}
+
+/* The whole box */
+.editor-wrapper {
+  background:#f8f8f8; 
+  border:1px solid #e0e0e0; 
+  border-radius:2px;
+  margin:20px;
+  padding:10px;
+}
+
+.editor-output {
+  margin:10px;
+}
+
+/* White background once loaded & loading tools */
+.loaded {
+  background:white;
+}
+
+.loading {
+  padding:50px;
+  text-align:center;
+}
+
+.loading p {
+  margin-bottom:30px;
+  color:#d0d0d0;
+}
+
+.spinner {
+  display:none;
+  margin-left:auto;
+  margin-right:auto;
+  width:21px;
+  height:21px;
+  background-image:url('spinner.png');
+}
+
+/* Tools with action links */
+.tools-left {
+  margin-left:10px;
+}
+.tools-right {
+  float:right;
+  margin-right:20px;
+}
+.tools-right a, .tools-left a {
+  font-size:10pt;
+  text-decoration:none;
+  color:#c0c0c0;
+  margin-left:15px;
+}
+
+.tools-right a:hover, .tools-left a:hover {
+  color:#909090;
+}
+
+/* Configuring and displaying the editor window */
+.cm-s-default {
+  border-style:none;
+  font-size: 11pt !important;
+  height:auto;
+}
+
+.editor-cm {
+  width:auto;
+  height:auto;
+  max-height:0px;
+  opacity:0.0;
+  margin:5px 20px 0px 20px;
+  transition:max-height 1s;
+  transition:margin-bottom 1s;
+  transition:opacity 1.25s;
+}
+
+.editor-cm-visible {
+  opacity:1.0;
+  max-height:1000px;
+  margin-bottom:10px;
+}
+
+/* Side bar with documentation */
+#editor-documentation-side {
+  background:#f8f8f8; 
+  border:1px solid #e0e0e0; 
+  border-radius:5px;
+  padding:10px;
+}
+#editor-documentation-side h2 {
+  font:bold 16pt Rufina,'Times New Roman', Times, serif;
+  margin-top:0px;
+}
+#editor-documentation-side p {
+  font:normal 10pt 'Pontano Sans', sans-serif;
+}
+#editor-documentation-side dl {
+  margin:15px 0px 10px 0px;
+}
+#editor-documentation-side dd {
+  margin-left: 15px;
+}
+#editor-documentation-side .map {
+  padding:10px;
+}
+#editor-documentation-side pre {
+  border-style:none;
+  padding:0px 0px 0px 15px;
+  color:#3257bb;
+}
+#editor-documentation-side ul {
+  margin-left:10px;
+}
+#editor-documentation-side table {
+  margin-left:15px;
+}
+#editor-documentation-side td {
+  font:normal 10pt 'Pontano Sans', sans-serif;
+  padding-right:20px;
+}
+
+/****************************** Visualizers *******************************/
+
+.vis-completion {
+  position:absolute;
+  left:0px;
+  top:100%;
+  width:100%;
+  z-index:1000;
+  max-height:300px;
+  overflow-y:scroll;
+  overflow-x:auto;
+  display:none;
+  background:white;
+  border:1px solid #cccccc;
+  font:normal 11pt 'Pontano Sans', sans-serif;
+}
+
+.editor-visual .glyphicon {
+  display:none;
+}
+
+.editor-visual .has-error .glyphicon {
+  display:block;
+}
+
+.editor-visual .glyphicon {
+  margin-right:30px;
+}
+
+.editor-visual .input-group {
+  margin-bottom: 10px;
+}
+
+.input-group-btn button {
+  height:34px;
+}
+
+.editor-visual {
+  padding:10px 20px 10px 20px;
+}
+
+.vis-completion a {
+  white-space:nowrap;
+  margin:0px;
+  display:block;
+  cursor:pointer;
+  padding:1px 0px 1px 10px;
+  color:black;
+}
+.vis-completion .current {
+  background-color:Highlight;
+  color:HighlightText;
+  text-decoration:none;
+}
+
+/****************************** Normal text formatting *******************************/
+
+h1 {
+  font:bold 30pt Rufina,'Times New Roman', Times, serif;
+  color:black;
+}
+
+p {
+  font:normal 13pt 'Pontano Sans', sans-serif;
+}
+
+
+/****************************** Tables *******************************/
+
+table td, table th {
+  font:normal 11pt 'Pontano Sans', sans-serif;
+}
+
+table caption {
+  margin-left:8px;
+  font:bold 9pt 'Pontano Sans', sans-serif;
+  text-transform:uppercase;
+}

@@ -1,0 +1,7 @@
+source https://nuget.org/api/v2
+
+nuget FSharp.Formatting
+nuget FSharp.Data
+nuget FSharp.Compiler.Service
+nuget Suave
+nuget FAKE

@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>TheGamma</title>
+
+  <!-- Standard page design and scripts -->
+  <link href="/content/bootstrap.min.css" rel="stylesheet">
+  <script src="/scripts/jquery-2.0.3.js"></script>
+  <script src="/scripts/bootstrap.min.js"></script>
+
+  <!-- Styles and scripts for the F# code editor -->
+  <link href="/content/editor.css" rel="stylesheet" />
+  <link href="/content/codemirror.css" rel="stylesheet" />  
+  <script src="/scripts/intellisense.js"></script>
+  <script src="/scripts/codemirror/codemirror.js"></script>
+  <script src="/scripts/codemirror/codemirror-intellisense.js"></script>
+  <script src="/scripts/codemirror/codemirror-compiler.js"></script>
+  <script src="/scripts/codemirror/mode/fsharp.js"></script>
+
+  <!-- Custom site styles and scripts -->
+  <link href="/content/site.css" rel="stylesheet" />
+  <script src="/scripts/custom.js"></script>
+
+  <!-- Fancy JavaScript libraries that we're using -->
+  <script type="text/javascript" src="//www.google.com/jsapi"></script>
+  <script type="text/javascript">
+    google.load('visualization', '1', { 'packages': ['corechart'] });
+    google.setOnLoadCallback(function () {
+        var data = google.visualization.arrayToDataTable([
+          ['Country',   'Value'],
+          ['CZ', 100]
+        ]);
+
+        var options = {
+          tooltip: {trigger: 'none'},
+          region: '150', // Africa
+          colorAxis: {colors: ['white','red']},
+          backgroundColor: 'white',
+          datalessRegionColor: 'yellow',
+          defaultColor: '#f5f5f5',
+          legend: 'none'
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('map'));
+        chart.draw(data, options);
+
+    });
+
+    $(window).scroll(function () {
+      if ($(this).scrollTop() > 1) {
+        $('header').addClass("scrolled");
+        $('#main').addClass("scrolled");
+      } else {
+        $('header').removeClass("scrolled");
+        $('#main').removeClass("scrolled");
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <h1>The Gamma</h1>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+  </header>
+  <div class="container" id="main">
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+
+        <div id="map" style="width:200px;"></div>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr><th>Foo</th><th>Bar</th></tr>
+          </thead>
+          <tr><td>Goo</td><td>1</td></tr>
+          <tr><td>Goo</td><td>1</td></tr>
+          <tr><td>Goo</td><td>1</td></tr>
+        </table>
+
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
+</body>
+</html>

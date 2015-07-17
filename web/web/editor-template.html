@@ -1,0 +1,36 @@
+﻿<script type="text/javascript">
+  var [ID]_source = "[SOURCE]";
+  var [ID]_change = [];
+</script>
+
+<div id="[ID]_wrapper" class="editor-wrapper">
+  <p class="tools-right">
+    <a href="javascript:;" onclick="switchVisualizer('[ID]');"><i class="fa fa-pencil-square-o"></i> options</a>
+    <a href="javascript:;" onclick="switchEditor('[ID]');"><i class="fa fa-code"></i> source</a>
+  </p>
+  <p class="tools-left">
+    <a href="javascript:;" onclick="refreshOutput('[ID]');"><i class="fa fa-refresh"></i> refresh</a>
+  </p>
+
+  <div id="[ID]_editor" style="display:none" class="editor-cm"></div>
+  <div id="[ID]_visual" style="display:none" class="editor-visual"></div>
+
+  <div id="[ID]" class="editor-output">    
+    <div class="loading">
+      <p>Loading content, please wait...</p>
+      <div class="spinner" id="[ID]_spinner"></div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  (function () {
+    var stop = startSpinning(document.getElementById("[ID]_spinner"));
+    var outputElementID = "[ID]";
+    var blockCallback = function () {
+      stop();
+      $('#[ID]_wrapper').addClass("loaded");
+    };
+    [SCRIPT]
+  })();
+</script>

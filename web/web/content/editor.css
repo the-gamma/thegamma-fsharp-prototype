@@ -1,0 +1,305 @@
+.br-intellisense {
+    min-width: 220px;
+    max-height: 176px;
+    min-height: 22px;
+    z-index: 10;
+    overflow: auto;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #E5C365;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, .2);
+    padding: 0;
+    margin: 5px;
+    display: none;
+}
+.br-documentation {
+    min-width: 200px;
+    padding: 3px;
+    overflow: auto;
+    position: absolute;
+    z-index: 10;
+    background-color: #E7E8EC;
+    border: 1px solid #CCCEDB;
+    box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+    font-family: 'Segoe UI';
+    font-size: 10pt;
+    display: none;
+}
+.br-listlink {
+    font-family: 'Segoe UI';
+    font-size: 10pt;
+    list-style: none;
+    cursor: pointer;
+    border: 1px solid white;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.br-listlink:hover {
+    background-color: #FDF4BF;
+}
+.br-selected {
+    background-color: #FDF4BF;
+    border: 1px dotted black;
+}
+.br-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: text-top;
+    margin: 2px;
+}
+.br-methods {
+    min-width: 220px;
+    min-height: 22px;
+    z-index: 10;
+    padding: 3px;
+    overflow: auto;
+    position: absolute;
+    background-color: #E7E8EC;
+    border: 1px solid #CCCEDB;
+    margin: 5px;
+    display: none;
+    font-family: 'Segoe UI';
+    font-size: 10pt;
+}
+.br-methods-text {
+    margin-left: 75px;
+}
+.br-methods-arrows {
+    width: 75px;
+    float: left;
+    font-family: Calibri;
+    font-weight: bold;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.br-methods-arrow {
+    cursor: pointer;
+}
+.br-methods-arrow-text {
+    font-weight: normal;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.icon-glyph-72 {
+    background-image: url('glyphs/method.png');
+}
+
+.icon-glyph-74 {
+    background-image: url('glyphs/static-method.png');
+}
+
+.icon-glyph-102 {
+    background-image: url('glyphs/property.png');
+}
+
+.icon-glyph-42 {
+    background-image: url('glyphs/property.png');
+}
+
+.icon-glyph-6 {
+    background-image: url('glyphs/static-property.png');
+}
+
+.icon-glyph-90 {
+    background-image: url('glyphs/namespace.png');
+}
+
+.icon-glyph-120 {
+    background-image: url('glyphs/class.png');
+}
+
+.icon-glyph-84 {
+    background-image: url('glyphs/class.png');
+}
+
+.icon-glyph-0 {
+    background-image: url('glyphs/class.png');
+}
+
+.icon-glyph-48 {
+    background-image: url('glyphs/interface.png');
+}
+
+.icon-glyph-12 {
+    background-image: url('glyphs/delegate.png');
+}
+
+.icon-glyph-108 {
+    background-image: url('glyphs/struct.png');
+}
+
+.icon-glyph-18 {
+    background-image: url('glyphs/enum.png');
+}
+
+.icon-glyph-30 {
+    background-image: url('glyphs/event.png');
+}
+
+.type {
+    color: #003ca7;
+}
+
+#cssmenu ul,
+#cssmenu li,
+#cssmenu span,
+#cssmenu a {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+#cssmenu {
+  height: 49px;
+  border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  -webkit-border-radius: 5px 5px 0 0;
+  background: #fefefe;
+  background: -moz-linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fefefe), color-stop(100%, #eee9f0));
+  background: -webkit-linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  background: -o-linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  background: -ms-linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  background: linear-gradient(top, #fefefe 0%, #eee9f0 100%);
+  border-bottom: 2px solid #8747ff;
+  width: auto;
+}
+#cssmenu:after,
+#cssmenu ul:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+#cssmenu a {
+  background: #fefefe;
+  background: -moz-linear-gradient(top, #fefefe 0%, #ececec 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fefefe), color-stop(100%, #ececec));
+  background: -webkit-linear-gradient(top, #fefefe 0%, #ececec 100%);
+  background: -o-linear-gradient(top, #fefefe 0%, #ececec 100%);
+  background: -ms-linear-gradient(top, #fefefe 0%, #ececec 100%);
+  background: linear-gradient(top, #fefefe 0%, #ececec 100%);
+  color: #000;
+  display: inline-block;
+  font-family: Helvetica, Arial, Verdana, sans-serif;
+  font-size: 12px;
+  line-height: 49px;
+  padding: 0 20px;
+  text-decoration: none;
+}
+#cssmenu ul {
+  list-style: none;
+}
+#cssmenu > ul {
+  float: left;
+}
+#cssmenu > ul > li {
+  float: left;
+}
+#cssmenu > ul > li > a {
+  color: #000;
+  font-size: 12px;
+}
+#cssmenu > ul > li:hover:after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #8747ff;
+  margin-left: -10px;
+}
+#cssmenu > ul > li:first-child > a {
+  border-radius: 5px 0 0 0;
+  -moz-border-radius: 5px 0 0 0;
+  -webkit-border-radius: 5px 0 0 0;
+}
+#cssmenu > ul > li.active:after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #8747ff;
+  margin-left: -10px;
+}
+#cssmenu > ul > li.active > a {
+  -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  background: #ececec;
+  background: -moz-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #ffeeff ef));
+  background: -webkit-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -o-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -ms-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+}
+#cssmenu > ul > li:hover > a {
+  background: #ececec;
+  background: -moz-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #ffeeff ef));
+  background: -webkit-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -o-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: -ms-linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  background: linear-gradient(top, #ececec 0%, #ffeeff ef 100%);
+  -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+}
+#cssmenu .has-sub {
+  z-index: 1;
+}
+#cssmenu .has-sub:hover > ul {
+  display: block;
+}
+#cssmenu .has-sub ul {
+  display: none;
+  position: absolute;
+  width: 200px;
+  top: 100%;
+  left: 0;
+}
+#cssmenu .has-sub ul li {
+  *margin-bottom: -1px;
+}
+#cssmenu .has-sub ul li a {
+  background: #8747ff;
+  border-bottom: 1px dotted #a87aff;
+  filter: none;
+  font-size: 11px;
+  display: block;
+  line-height: 120%;
+  padding: 10px;
+  color: #ffffff;
+}
+#cssmenu .has-sub ul li:hover a {
+  background: #6614ff;
+}
+#cssmenu .has-sub .has-sub:hover > ul {
+  display: block;
+}
+#cssmenu .has-sub .has-sub ul {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+}
+#cssmenu .has-sub .has-sub ul li a {
+  background: #6614ff;
+  border-bottom: 1px dotted #a87aff;
+}
+#cssmenu .has-sub .has-sub ul li a:hover {
+  background: #5700f9;
+}
