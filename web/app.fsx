@@ -80,8 +80,8 @@ module JS =
       chart.show(ch4)
     )
 *)
-//#r "packages/FSharp.Data/lib/net40/FSharp.Data.dll"
 (*
+//#r "packages/FSharp.Data/lib/net40/FSharp.Data.dll"
 #if INTERACTIVE
 #r "thegamma/bin/FSharp.Data.dll"
 #r "packages/FSharp.Compiler.Service/lib/net40/FSharp.Compiler.Service.dll"
@@ -121,6 +121,7 @@ let staticWebFile ctx = async {
 *)
 
 (*
+(*
 let html = System.IO.File.ReadAllText(__SOURCE_DIRECTORY__ + "/web/demo.html")
 
 let demo ctx = async {
@@ -130,7 +131,7 @@ let demo ctx = async {
   with e ->
     return! ctx |> Successful.OK(e.ToString()) }
 *)
-(*
+
 open System
 open TheGamma.Server.Common
 open Microsoft.FSharp.Compiler.SourceCodeServices
@@ -142,6 +143,7 @@ let fsi =
     (fun () -> Evaluator.startSession Config.gammaFolder Config.loadScriptString),
     (fun fsi -> (fsi.Session :> IDisposable).Dispose()) )
 *)
+
 let app =
   choose
     [ //Editor.webPart checker
