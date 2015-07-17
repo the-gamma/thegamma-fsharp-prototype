@@ -97,7 +97,7 @@ module JS =
 open System.IO
 open Suave.Types
 open Suave.Http.Applicatives
-//open TheGamma.Server
+open TheGamma.Server
 
 
 let staticWebFile ctx = async {
