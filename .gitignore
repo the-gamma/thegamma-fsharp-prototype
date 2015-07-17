@@ -1,0 +1,8 @@
+paket.exe
+data/bin
+data/packages
+data/paket-files
+web/bin
+web/packages
+web/paket-files
+web/thegamma/bin

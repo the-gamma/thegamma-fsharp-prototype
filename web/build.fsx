@@ -75,6 +75,8 @@ Target "Run" (fun _ ->
   System.Console.ReadLine() |> ignore
 )
 
+Target "Build" ignore
+
 // --------------------------------------------------------------------------------------
 // Minimal Azure deploy script - just overwrite old files with new ones
 // --------------------------------------------------------------------------------------
