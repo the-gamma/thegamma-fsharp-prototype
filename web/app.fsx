@@ -155,7 +155,7 @@ let app =
 // automatically reloads the script when it changes. But for debugging, you can also use run or
 // run with debugger in VS or XS. This runs the code below.
 // -------------------------------------------------------------------------------------------------
-
+(*
 #if INTERACTIVE
 #else
 open Suave.Web
@@ -168,3 +168,4 @@ Async.Start(server)
 System.Diagnostics.Process.Start("http://localhost:8011")
 System.Console.ReadLine() |> ignore
 #endif
+*)
