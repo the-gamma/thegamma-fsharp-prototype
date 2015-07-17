@@ -33,29 +33,29 @@ open TheGamma.Series
 open TheGamma.GoogleCharts
 
 [<JS>]
-module JS = 
+module JS =
   let foo() =
     google.Globals.load("visualization", "1.0", {packages=[| "corechart" |]})
-    google.Globals.setOnLoadCallback(fun () -> 
+    google.Globals.setOnLoadCallback(fun () ->
       let x = world.byYear.``2010``.``Economy & Growth``.``GDP per capita (current US$)``.map(log10)
       let y = world.byYear.``2010``.Health.``Life expectancy at birth, total (years)``
-      let ch = 
+      let ch =
         chart.scatter(x, y)
           .set(width=1000.0, height=1000.0)
           .set(title="GDP vs Life expectancy.,,?", pointSize=3.0, colors=["#3B8FCC"])
           .hAxis(title="Log of " + x.seriesName)
           .vAxis(title=y.seriesName)
           .trendlines([options.trendline(opacity=0.5, lineWidth=10.0, color="#C0D9EA")])
-      
+
       let co2 = world.byYear.``2010``.``Climate Change``.``CO2 emissions (kt)``
       let pop = world.byYear.``2010``.``Climate Change``.``Total Population (in number of people)``
 
-      let ch1 = 
+      let ch1 =
         chart.geo(co2)
           .colorAxis(colors=["#6CC627";"#DB9B3B";"#DB7532";"#DD5321";"#DB321C";"#E00B00"])
 
       let co2pcp = co2.joinInner(pop).map(fun (co2, pop) -> co2 / pop)
-      let ch2 = 
+      let ch2 =
         chart.geo(co2pcp)
           .colorAxis(colors=["#6CC627";"#DB9B3B";"#DB7532";"#DD5321";"#DB321C";"#E00B00"])
 
@@ -63,9 +63,9 @@ module JS =
       let tall = tops.take(6).append("Rest", tops.skip(10).sum())
 
       let ch3 = chart.pie(tall).set(width=1000.0,height=1000.0)
-      
 
-      let polluters = 
+
+      let polluters =
         [ world.byCountry.China
           world.byCountry.India
           world.byCountry.``United States``
@@ -73,7 +73,7 @@ module JS =
           world.byCountry.Germany
           world.byCountry.``United Kingdom``
           world.byCountry.Canada
-          world.byCountry.Brazil 
+          world.byCountry.Brazil
         ].series().mapTask(fun p -> p.``Climate Change``.``Population growth (annual %)``.first()).sortValues(reverse=true).set(seriesName="Population growth (annual %)")
 
       let ch4 = chart.column(polluters).set(width=1000.0, height=1000.0).set(colors=["#DB9B3B"])
@@ -81,6 +81,7 @@ module JS =
     )
 *)
 //#r "packages/FSharp.Data/lib/net40/FSharp.Data.dll"
+(*
 #if INTERACTIVE
 #r "thegamma/bin/FSharp.Data.dll"
 #r "packages/FSharp.Compiler.Service/lib/net40/FSharp.Compiler.Service.dll"
@@ -92,10 +93,11 @@ module JS =
 #load "code/editor.fs"
 #load "code/visualizers.fs"
 #endif
+*)
 open System.IO
 open Suave.Types
 open Suave.Http.Applicatives
-open TheGamma.Server
+//open TheGamma.Server
 
 
 let staticWebFile ctx = async {
@@ -104,8 +106,8 @@ let staticWebFile ctx = async {
   let actualFile = Path.Combine(ctx.runtime.homeDirectory, "web", file)
   if not(File.Exists(actualFile)) then return None else
   let mime = Suave.Http.Writers.defaultMimeTypesMap(Path.GetExtension(actualFile))
-  let setMime = 
-    match mime with 
+  let setMime =
+    match mime with
     | None -> fun c -> async { return None }
     | Some mime -> Suave.Http.Writers.setMimeType mime.name
   return! ctx |> ( setMime >>= Successful.ok(File.ReadAllBytes actualFile)) }
@@ -128,26 +130,26 @@ let demo ctx = async {
   with e ->
     return! ctx |> Successful.OK(e.ToString()) }
 *)
-
+(*
 open System
 open TheGamma.Server.Common
 open Microsoft.FSharp.Compiler.SourceCodeServices
 
-let checker = 
+let checker =
   ResourceAgent("FSharpChecker", Int32.MaxValue, fun () -> FSharpChecker.Create())
 let fsi =
   ResourceAgent("FsiSession", 50,
     (fun () -> Evaluator.startSession Config.gammaFolder Config.loadScriptString),
     (fun fsi -> (fsi.Session :> IDisposable).Dispose()) )
-
-let app = 
+*)
+let app =
   choose
-    [ Editor.webPart checker
-      Document.webPart fsi
-      Evaluator.webPart fsi
-      Visualizers.webPart checker
-      //path "/demo" >>= demo 
-      path "/"
+    [ //Editor.webPart checker
+      //Document.webPart fsi
+      //Evaluator.webPart fsi
+      //Visualizers.webPart checker
+      //path "/demo" >>= demo
+      //path "/"
       staticWebFile ]
 
 // -------------------------------------------------------------------------------------------------
