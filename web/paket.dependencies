@@ -5,3 +5,5 @@ nuget FSharp.Data
 nuget FSharp.Compiler.Service
 nuget Suave
 nuget FAKE
+
+github matthid/Yaaf.FSharp.Scripting src/source/Yaaf.FSharp.Scripting/YaafFSharpScripting.fs

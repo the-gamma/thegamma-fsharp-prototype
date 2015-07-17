@@ -12,23 +12,23 @@ let project = "../TheGamma.Data.sln"
 let tempBin = "bin"
 let outBin = "../web/thegamma/bin"
 let stopFile = "../web/.stop"
-let fsc = @"C:\Program Files (x86)\Microsoft SDKs\F#\3.1\Framework\v4.0\fsc.exe"
+let fsc = __SOURCE_DIRECTORY__ @@ "packages/FSharp.Compiler.Tools/tools/fsc.exe"
 
 type FsProj = XmlProvider<"TheGamma.World.fsproj">
 
-let buildLibrary (name:string) refs = 
+let buildLibrary (name:string) refs =
   let fsproj = FsProj.Load(name)
-  let files = 
-    [ for it in fsproj.ItemGroups do 
+  let files =
+    [ for it in fsproj.ItemGroups do
         for c in it.Compiles do yield c.Include ]
-  let projRefs = 
+  let projRefs =
     [ for it in fsproj.ItemGroups do
         for pr in it.ProjectReferences do yield tempBin @@ pr.Name + ".dll" ]
 
   let files = files |> String.concat " "
   let refs = projRefs @ refs |> List.map (sprintf "--reference:%s") |> String.concat " "
   let out = tempBin @@ (Path.ChangeExtension(name, "dll"))
-  let res = TimeSpan.MaxValue |> ExecProcessAndReturnMessages (fun ps -> 
+  let res = TimeSpan.MaxValue |> ExecProcessAndReturnMessages (fun ps ->
     let args = refs + (sprintf " -g --debug:full --optimize- --out:%s --target:library %s" out files)
     ps.WorkingDirectory <- __SOURCE_DIRECTORY__
     ps.FileName <- fsc
@@ -44,15 +44,15 @@ let reloadWebApp () =
     try
       CleanDir(outBin)
       CopyFiles outBin (!! (tempBin @@ "*.*"))
-    with _ -> 
+    with _ ->
       if n = 10 then reraise() else loop (n + 1)
   loop 1
   traceImportant "Deleting .stop file to restart the app..."
   File.Delete(stopFile)
 
 let buildProviders () =
-  let refs = 
-    [ yield "packages/FSharp.Data/lib/net40/FSharp.Data.dll" 
+  let refs =
+    [ yield "packages/FSharp.Data/lib/net40/FSharp.Data.dll"
       yield! Directory.GetFiles("lib") ]
 
   CopyFiles tempBin (!! ("lib/*.*"))
@@ -61,6 +61,10 @@ let buildProviders () =
   buildLibrary "TheGamma.Json.fsproj" refs
   buildLibrary "TheGamma.World.fsproj" refs
   reloadWebApp()
+
+Target "Build" (fun _ ->
+  buildProviders()
+)
 
 Target "Run" (fun _ ->
   buildProviders()
@@ -75,5 +79,8 @@ Target "Rebuild" (fun _ ->
   |> MSBuildDebug "" "Rebuild"
   |> Log "AppBuild-Output: "
 )
+
+Target "Deploy" ignore
+"Deploy" ==> "Build"
 
 RunTargetOrDefault "Run"

@@ -52,7 +52,7 @@ let reloadAppServer () =
     currentApp.Value <- app
     traceImportant "New version of app.fsx loaded!" )
 
-Target "run" (fun _ ->
+Target "Run" (fun _ ->
   let app ctx = currentApp.Value ctx
   let _, server = startWebServerAsync serverConfig app
 
@@ -65,13 +65,13 @@ Target "run" (fun _ ->
   let sources = { BaseDirectory = __SOURCE_DIRECTORY__; Includes = [ "**/*.fs*" ]; Excludes = [] }
   use watcher = sources |> WatchChanges (fun _ -> reloadAppServer())
   traceImportant "Waiting for app.fsx edits. Press any key to stop."
-  
+
   async {
     while not(System.IO.File.Exists(__SOURCE_DIRECTORY__ @@ ".stop")) do
-      do! Async.Sleep(500) 
+      do! Async.Sleep(500)
     System.Diagnostics.Process.GetCurrentProcess().Kill() }
   |> Async.Start
-      
+
   System.Console.ReadLine() |> ignore
 )
 
@@ -79,11 +79,11 @@ Target "run" (fun _ ->
 // Minimal Azure deploy script - just overwrite old files with new ones
 // --------------------------------------------------------------------------------------
 
-Target "deploy" (fun _ ->
+Target "Deploy" (fun _ ->
   let sourceDirectory = __SOURCE_DIRECTORY__
-  let wwwrootDirectory = __SOURCE_DIRECTORY__ @@ "../wwwroot"
+  let wwwrootDirectory = __SOURCE_DIRECTORY__ @@ "../../wwwroot"
   CleanDir wwwrootDirectory
   CopyRecursive sourceDirectory wwwrootDirectory false |> ignore
 )
 
-RunTargetOrDefault "run"
+RunTargetOrDefault "Run"

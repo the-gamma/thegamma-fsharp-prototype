@@ -16,3 +16,7 @@ NUGET
       FSharp.Core (>= 3.1.2.1)
       FsPickler (>= 1.2.5)
     Zlib.Portable (1.11.0) - framework: portable-net40+sl50+wp80+win80
+GITHUB
+  remote: matthid/Yaaf.FSharp.Scripting
+  specs:
+    src/source/Yaaf.FSharp.Scripting/YaafFSharpScripting.fs (dda29384bbefbaed1496ee0527120187215a7916)
