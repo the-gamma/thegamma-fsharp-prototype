@@ -193,7 +193,7 @@ var DocumentationSide = function()
     }
     else {
       showElement(true);
-      if (documentation.trim().startsWith("[JAVASCRIPT]")) {
+      if (documentation.trim().indexOf("[JAVASCRIPT]") == 0) {
         eval("(" + documentation.trim().substr("[JAVASCRIPT]".length) + ")")(documentationElement);
       }
       else {
@@ -394,7 +394,7 @@ var DeclarationsIntellisense = function () {
     listElement.style.left = left + 'px';
     listElement.style.top = top + 'px';
 
-    // reposition documentation 
+    // reposition documentation
     documentationSide.moveElement(top);
   }
 
@@ -402,7 +402,7 @@ var DeclarationsIntellisense = function () {
    * Refresh the filter
    */
   function setFilter(filterText) {
-    if (filterText.startsWith("``"))
+    if (filterText.indexOf("``") == 0)
       filterText = filterText.substr(2);
 
     // Only apply the filter if there is something left, otherwise leave unchanged
