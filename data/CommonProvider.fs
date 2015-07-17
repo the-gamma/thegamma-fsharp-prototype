@@ -4,7 +4,7 @@ open System
 open FSharp.Data
 
 // --------------------------------------------------------------------------------------------------------------------
-// 
+//
 // --------------------------------------------------------------------------------------------------------------------
 
 [<AutoOpen>]
@@ -16,9 +16,9 @@ module ActivePatterns =
 
   /// Takes a map and succeeds if it is empty
   let (|EmptyMap|_|) result (map:Map<_,_>) = if map.IsEmpty then Some result else None
-    
+
   /// Takes a map and succeeds if it contains exactly one value
-  let (|SingletonMap|_|) (map:Map<_,_>) = 
+  let (|SingletonMap|_|) (map:Map<_,_>) =
       if map.Count <> 1 then None else
           let (KeyValue(k, v)) = Seq.head map
           Some(k, v)
@@ -32,30 +32,38 @@ open System.IO
 open System.Security.Cryptography
 open System.Text
 
-module Cache = 
+module Cache =
 
   /// Get hash code of a string - used to determine cache file
-  let private hashString (plainText:string) = 
+  let private hashString (plainText:string) =
     let plainTextBytes = Encoding.UTF8.GetBytes(plainText)
     let hash = new SHA1Managed()
-    let hashBytes = hash.ComputeHash(plainTextBytes)        
+    let hashBytes = hash.ComputeHash(plainTextBytes)
     let s = Convert.ToBase64String(hashBytes)
     s.Replace("ab","abab").Replace("\\","ab")
 
   // %UserProfile%\AppData\Local\Microsoft\Windows\INetCache
-  let cacheFolder =
+  let getINetCacheFolder() =
     if Environment.OSVersion.Platform = PlatformID.Unix
     then Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/.cache/thegamma"
     else Environment.GetFolderPath(Environment.SpecialFolder.InternetCache)
+  let getLocalCacheFolder() =
+    IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)
+  let createCacheSubDir cacheFolder =
+    // Try to create directory, if it does not exist
+    let downloadCache = Path.Combine(cacheFolder, "thegamma")
+    if not (Directory.Exists downloadCache) then
+      Directory.CreateDirectory downloadCache |> ignore
+    downloadCache
 
-  // Try to create directory, if it does not exist
-  let downloadCache = Path.Combine(cacheFolder, "thegamma")
-  if not (Directory.Exists downloadCache) then
-    Directory.CreateDirectory downloadCache |> ignore
+  let downloadCache =
+    try createCacheSubDir (getINetCacheFolder())
+    with _ -> createCacheSubDir (getLocalCacheFolder())
+
 
   // Get file name for a given string (using hash)
-  let cacheFile key = 
-    let sha1 = hashString key 
+  let cacheFile key =
+    let sha1 = hashString key
     let encoded = Uri.EscapeDataString sha1
     Path.Combine(downloadCache, encoded + ".txt")
 
@@ -63,7 +71,7 @@ module Cache =
 
   let expiration = TimeSpan.FromDays(30.0)
 
-  let saveFileCache url data = 
+  let saveFileCache url data =
     let cacheFile = cacheFile url
     File.WriteAllText(cacheFile, data)
 
@@ -79,12 +87,11 @@ module Cache =
     | true, res -> return res
     | _ ->
         let! res = async {
-          match tryFileCache url with 
+          match tryFileCache url with
           | Some res -> return res
-          | None -> 
-             let! res = Http.AsyncRequestString(url.ToString()) 
+          | None ->
+             let! res = Http.AsyncRequestString(url.ToString())
              saveFileCache url res
              return res }
         cache.TryAdd(url.ToString(), res) |> ignore
         return res }
-
