@@ -81,6 +81,6 @@ Target "Rebuild" (fun _ ->
 )
 
 Target "Deploy" ignore
-"Deploy" ==> "Build"
+"Build" ==> "Deploy"
 
 RunTargetOrDefault "Run"

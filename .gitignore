@@ -1,8 +1,11 @@
 paket.exe
 data/bin
+data/obj
 data/packages
 data/paket-files
 web/bin
+web/obj
 web/packages
 web/paket-files
 web/thegamma/bin
+*.bak

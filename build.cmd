@@ -1,5 +1,6 @@
+@echo off
 cd data
-build.cmd %*
+call build.cmd %*
 cd ..\web
-build.cmd %*
+call build.cmd %*
 cd ..
