@@ -80,9 +80,9 @@ module JS =
       chart.show(ch4)
     )
 *)
-(*
+
 //#r "packages/FSharp.Data/lib/net40/FSharp.Data.dll"
-#if INTERACTIVE
+//#if INTERACTIVE
 #r "thegamma/bin/FSharp.Data.dll"
 #r "packages/FSharp.Compiler.Service/lib/net40/FSharp.Compiler.Service.dll"
 #load "packages/FSharp.Formatting/FSharp.Formatting.fsx"
@@ -92,8 +92,8 @@ module JS =
 #load "code/document.fs"
 #load "code/editor.fs"
 #load "code/visualizers.fs"
-#endif
-*)
+//#endif
+
 open System.IO
 open Suave.Types
 open Suave.Http.Applicatives
@@ -121,7 +121,6 @@ let staticWebFile ctx = async {
 *)
 
 (*
-(*
 let html = System.IO.File.ReadAllText(__SOURCE_DIRECTORY__ + "/web/demo.html")
 
 let demo ctx = async {
@@ -142,14 +141,13 @@ let fsi =
   ResourceAgent("FsiSession", 50,
     (fun () -> Evaluator.startSession Config.gammaFolder Config.loadScriptString),
     (fun fsi -> (fsi.Session :> IDisposable).Dispose()) )
-*)
 
 let app =
   choose
-    [ //Editor.webPart checker
-      //Document.webPart fsi
-      //Evaluator.webPart fsi
-      //Visualizers.webPart checker
+    [ Editor.webPart checker
+      Document.webPart fsi
+      Evaluator.webPart fsi
+      Visualizers.webPart checker
       //path "/demo" >>= demo
       //path "/"
       staticWebFile
