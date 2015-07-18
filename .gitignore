@@ -9,3 +9,4 @@ web/packages
 web/paket-files
 web/thegamma/bin
 *.bak
+*.suo

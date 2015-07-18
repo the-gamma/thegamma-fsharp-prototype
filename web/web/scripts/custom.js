@@ -1,4 +1,14 @@
-﻿/**************************************** Spinner ****************************************/
+﻿/**************************************** Top panel and Spinner stuff ****************************************/
+
+$(window).scroll(function () {
+  if ($(this).scrollTop() > 1) {
+    $('header').addClass("scrolled");
+    $('#main').addClass("scrolled");
+  } else {
+    $('header').removeClass("scrolled");
+    $('#main').removeClass("scrolled");
+  }
+});
 
 function startSpinning(el)
 {
@@ -40,7 +50,7 @@ function refreshOutput(id)
     //finished = true;
     eval("(function(){ \n\
       var outputElementID = \"" + id + "\"\n\
-      var blockCallback = function () {}; \n" + 
+      var blockCallback = function () {}; \n" +
       data + "\n\
     })()");
   });
@@ -71,7 +81,7 @@ function setupEditor(id) {
     editor.getDoc().setValue(source);
     updating = false;
   });
-  
+
 
   // Helper to send request to our server
   function request(operation, line, col) {
@@ -88,7 +98,7 @@ function setupEditor(id) {
   var evaluateScript = function () {
     var counter = 0;
     var finished = false;
-    function spin() {      
+    function spin() {
       if (finished) {
         document.getElementById("spinner").style.display = "none";
         return;
@@ -208,142 +218,101 @@ function switchDocEditor(id) {
 
 /**************************************** Setting up the visualizers ****************************************/
 
-function createVisualizer(id, vis) {
+function createVisualizer(id, multiple, vis) {
   var source = window[id + "_source"];
   var utils = new Utils();
   var documentationSide = new DocumentationSide();
 
-  var visCompletion = $("<div class='vis-completion' />");
-  var inputGroup = $("<div class='input-group' />");
-  var input = $("<input type='text' class='form-control' />");
-  var err = $('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" />');
-  var btn = $("<button type='button' class='btn btn-default'><span class='caret'></span></button>");
-  var groupBtn = $("<div class='input-group-btn' />");
-  btn.appendTo(groupBtn);
-
-  visCompletion.appendTo(inputGroup);
-  input.appendTo(inputGroup);
-  err.appendTo(inputGroup);
-  groupBtn.appendTo(inputGroup);
-
-  input.val(vis.initial);
-  $("#" + id + "_visual").append(inputGroup)
-
-  var range = { line: vis.range[0], start: vis.range[1], end: vis.range[3] };
-  function updateSource() {
-    var lines = window[id + "_source"].split('\n');
-    var line = lines[range.line - 1];
-
-    var name = input.val();
-    if (!isNaN(name[0]) || utils.lastIndexOfAny(name, [' ', '[', ']', '.']) != -1) {
-      name = '``' + name + '``';
-    }
-
-    lines[range.line - 1] = line.slice(0, range.start) + name + line.slice(range.end + 1);
-    range.end = range.start + name.length - 1;
-    setSource(id, lines.join("\n"),false);
-
-    var error = true;
-    vis.options.forEach(function (v) { if (v.member == input.val()) { error = false; } });
-    if (error) inputGroup.addClass("has-error"); else inputGroup.removeClass("has-error");
-  };
-  input.on("input", updateSource);
-
-  var ignoringHide;
-  function hideCompletion() {
-    if (ignoringHide) return;
-    visCompletion.hide();
-    document.body.removeEventListener('click', hideCompletion, true);
-    documentationSide.showElement(false);
-  }
-  function showCompletion(hideOnClick) {
-    visCompletion.children().show();
-    visCompletion.show();
-    if (hideOnClick) document.body.addEventListener('click', hideCompletion, true);
-  }
-
-  btn.click(function () { input.focus(); showCompletion(true); });
-  input.focus(function () { showCompletion(false); });
-  input.blur(hideCompletion);
-
-  var touchSelected = null;
-  var touchCount = null;
-
-  input.keydown(function (evt) {
-    if (evt.keyCode == 13) {
-      documentationSide.showElement(false);
-      hideCompletion();
-      return;
-    }
-    if (evt.keyCode != 40 && evt.keyCode != 38) return;
-
-    var current = -1;
-    var children = visCompletion.children().filter(":visible");
-    children.each(function (i, a) {
-      if ($(a).hasClass("current")) current = i;
-    });
-
-    // 38 up, 40 down
-    var prev = current;
-    if (evt.keyCode == 40) current++;
-    if (evt.keyCode == 38) current--;
-    if (current < 0) current = 0;
-    if (current >= children.length) current = children.length - 1;
-    children.slice(prev, prev + 1).removeClass("current");
-    children.slice(current, current + 1).addClass("current");
-
-    var memberEl = children.slice(current, current + 1);
-    visCompletion.scrollTop(memberEl.height() * (current < 5 ? 0 : current - 4));
-
-    var member = memberEl.text();
-    input.val(member);
-    updateSource();
-    vis.options.forEach(function (v) {
-      if (v.member == member)
-        documentationSide.showDocumentation(v.documentation);
-    });
-  });
-
-  input.on("input", function () {
-    var search = input.val().toLowerCase();
-    visCompletion.children().each(function (_, ch) {
-      ch = $(ch);
-      if (ch.text().toLowerCase().indexOf(search) >= 0)
-        ch.show();
-      else
-        ch.hide();
-    });
-  });
-
+  // Create chosen slect element and add options from the visualizer
+  var sel = $(multiple?'<select multiple />':'<select />');
   vis.options.forEach(function (v) {
-    var a = $("<a />");
-    a.mouseover(function () {
+    $('<option />').text(v.member).val(v.member).appendTo(sel);
+  });
+  sel.val(vis.initial);
+  $("#" + id + "_visual").append(sel);
+  sel.chosen();
+
+  // Code to update the source code when the selection is changed
+  if (multiple)
+  {
+    var range = { startl: vis.range[0], startc: vis.range[1], endl: vis.range[2], endc: vis.range[3] };
+    var prefix = vis.prefix.join(".");
+    var origLength = range.endl - range.startl + 1;
+
+    function updateSource1() {
+      var lines = window[id + "_source"].split('\n');
+      var names = sel.val();
+      var newLines = [];
+      var newEndc, newEndl;
+
+      window[id + "_offsetf"] = function(l) {
+        if (l > range.startl) return l + names.length - origLength;
+        else return l;
+      };
+
+      for(var i = 0; i < lines.length-(range.endl-range.startl+1)+names.length; i++)
+      {
+        var line;
+        var ni = i-range.startl+1;
+        if (i == range.startl-1)
+          line = lines[i].slice(0, range.startc) + prefix + "." + utils.escapeIdent(names[ni]);
+        else if (i > range.startl-1 && ni < names.length-1)
+          line = utils.repeat(' ', range.startc) + prefix + "." + utils.escapeIdent(names[ni]);
+        else if (ni == names.length-1)
+        {
+          var suffix = lines[range.endl-1].slice(range.endc+1);
+          line = utils.repeat(' ', range.startc) + prefix + "." + utils.escapeIdent(names[ni]) + suffix;
+          newEndl = i + 1;
+          newEndc = line.length - suffix.length - 1;
+        }
+        else if (ni > names.length-1)
+          line = lines[i-names.length+(range.endl-range.startl+1)];
+        else
+          line = lines[i];
+        newLines.push(line);
+      }
+      range.endl = newEndl;
+      range.endc = newEndc;
+      setSource(id, newLines.join("\n"),false);
+    };
+    sel.on("change", updateSource1);
+  }
+  else
+  {
+    var range = { line: vis.range[0], start: vis.range[1], end: vis.range[3] };
+    function updateSource2() {
+      var f = window[id + "_offsetf"];
+      if (!f) f = function(l) { return l; };
+
+      var lines = window[id + "_source"].split('\n');
+      var line = lines[f(range.line) - 1];
+      var name = utils.escapeIdent(sel.val());
+      lines[f(range.line) - 1] = line.slice(0, range.start) + name + line.slice(range.end + 1);
+      range.end = range.start + name.length - 1;
+      setSource(id, lines.join("\n"),false);
+    };
+    sel.on("change", updateSource2);
+  }
+
+  // Update the documentation side bar when something happens
+  function updateDocumentation(member) {
+    vis.options.forEach(function (v) {
+      if (v.member == member) {
         documentationSide.showDocumentation(v.documentation);
-        documentationSide.moveElement(input.offset().top);
-        ignoringHide = true;
-        a.addClass("current");
-      })
-      .mouseout(function () {
-        ignoringHide = false;
-        a.removeClass("current");
-      })
-      .bind("touchstart", function () {
-        if (touchSelected == v.member)
-          touchCount++;
-        else {
-          touchSelected = v.member;
-          touchCount = 0;
-        }
-      })
-      .click(function () {
-        if (touchSelected == null || touchCount == 1) {
-          ignoringHide = false;
-          hideCompletion();
-          input.val(v.member);
-          updateSource();
-        }
-      })
-      .text(v.member).appendTo(visCompletion);
+        documentationSide.moveElement(sel.parent().offset().top);
+      }
+    });
+  }
+  sel.on("chosen:hiding_dropdown", function() {
+    documentationSide.showElement(false);
+  });
+  sel.on("chosen:showing_dropdown", function() {
+    function getCurrent() {
+      updateDocumentation($(".chosen-results .highlighted").text());
+    }
+    $(".chosen-search").on("keyup", getCurrent); // for single-choice
+    $(".chosen-choices").on("keyup", getCurrent); // for multi-choice
+    $(".chosen-results").on("mouseover", getCurrent);
   });
 }
 
@@ -357,7 +326,8 @@ function setupVisualizer(id) {
 
     window[id + "_vis_hash"] = data.hash;
     $("#" + id + "_visual").empty();
-    data.visualizers.forEach(function (vis) { createVisualizer(id, vis); });
+    data.singleLevel.forEach(function (vis) { createVisualizer(id, false, vis); });
+    data.list.forEach(function (vis) { createVisualizer(id, true, vis); });
   });
 }
 
@@ -414,7 +384,7 @@ function showCountryDocumentation(el, info)
     ]);
     var options = {
         tooltip: { trigger: 'none' },
-        region: info.regionCode, 
+        region: info.regionCode,
         colorAxis: { colors: ['white', '#404040'] },
         backgroundColor: '#f8f8f8',
         datalessRegionColor: '#e0e0e0',
@@ -423,4 +393,28 @@ function showCountryDocumentation(el, info)
     };
     var chart = new google.visualization.GeoChart(map);
     chart.draw(data, options);
+}
+
+var chartsToDraw = [];
+var googleLoaded = false;
+function drawChartOnLoad(f) {
+  if (googleLoaded) f();
+  else chartsToDraw.push(f);
+};
+google.load('visualization', '1', { 'packages': ['corechart'] });
+google.setOnLoadCallback(function () {
+  googleLoaded = true;
+  for (var i = 0; i < chartsToDraw.length; i++) chartsToDraw[i]();
+  chartsToDraw = undefined;
+});
+
+function drawChart(chart, data, id, callback) {
+  drawChartOnLoad(function() {
+    var ctor = eval("(function(a) { return new google.visualization." + chart.typeName + " (a); })");
+    var ch = ctor(document.getElementById(id));
+    if (chart.options.height == undefined)
+      chart.options.height = 400;
+    ch.draw(data, chart.options);
+    callback();
+  });
 }

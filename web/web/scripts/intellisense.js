@@ -50,11 +50,29 @@
     return max;
   }
 
+  function repeat(s, n){
+      var a = [];
+      while(a.length < n){
+          a.push(s);
+      }
+      return a.join('');
+  }
+
+  function escapeIdent(name) {
+    if (!isNaN(name[0]) || lastIndexOfAny(name, [' ', '[', ']', '.']) != -1) {
+      name = '``' + name + '``';
+    }
+    return name;
+  }
+
+
   this.lastIndexOfAny = lastIndexOfAny;
   this.removeCssClass = removeCssClass;
   this.addCssClass = addCssClass;
   this.hasCssClass = hasCssClass;
   this.showElement = showElement;
+  this.escapeIdent = escapeIdent;
+  this.repeat = repeat;
 };
 
 

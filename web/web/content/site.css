@@ -37,10 +37,10 @@ header .icons {
 header .icons a, header .icons a:visited, header .icons a:hover {
   border-radius:20px;
   background:white;
-  padding:2px 7px 0px 0px; 
-  display:block; 
-  width:40px; 
-  height:40px; 
+  padding:2px 7px 0px 0px;
+  display:block;
+  width:40px;
+  height:40px;
   font-size:25px;
   float:right;
   color:black;
@@ -49,9 +49,9 @@ header .icons a, header .icons a:visited, header .icons a:hover {
 }
 header.scrolled .icons a {
   border-radius:15px;
-  padding:0px 4px 0px 0px; 
-  width:30px; 
-  height:30px; 
+  padding:0px 4px 0px 0px;
+  width:30px;
+  height:30px;
   font-size:20px;
   margin-top:15px;
 }
@@ -60,8 +60,8 @@ header.scrolled .icons a {
 
 /* Wrapper around the Markdown editor */
 .doc-wrapper {
-  background:white; 
-  border:1px solid #e0e0e0; 
+  background:white;
+  border:1px solid #e0e0e0;
   border-radius:2px;
   margin:20px;
   padding:10px 10px 5px 10px;
@@ -72,8 +72,8 @@ header.scrolled .icons a {
 
 /* The whole box */
 .editor-wrapper {
-  background:#f8f8f8; 
-  border:1px solid #e0e0e0; 
+  background:#f8f8f8;
+  border:1px solid #e0e0e0;
   border-radius:2px;
   margin:20px;
   padding:10px;
@@ -152,8 +152,8 @@ header.scrolled .icons a {
 
 /* Side bar with documentation */
 #editor-documentation-side {
-  background:#f8f8f8; 
-  border:1px solid #e0e0e0; 
+  background:#f8f8f8;
+  border:1px solid #e0e0e0;
   border-radius:5px;
   padding:10px;
 }
@@ -191,58 +191,32 @@ header.scrolled .icons a {
 
 /****************************** Visualizers *******************************/
 
-.vis-completion {
-  position:absolute;
-  left:0px;
-  top:100%;
+.editor-visual select {
   width:100%;
-  z-index:1000;
-  max-height:300px;
-  overflow-y:scroll;
-  overflow-x:auto;
-  display:none;
-  background:white;
-  border:1px solid #cccccc;
   font:normal 11pt 'Pontano Sans', sans-serif;
-}
-
-.editor-visual .glyphicon {
-  display:none;
-}
-
-.editor-visual .has-error .glyphicon {
-  display:block;
-}
-
-.editor-visual .glyphicon {
-  margin-right:30px;
-}
-
-.editor-visual .input-group {
-  margin-bottom: 10px;
-}
-
-.input-group-btn button {
-  height:34px;
 }
 
 .editor-visual {
   padding:10px 20px 10px 20px;
 }
 
-.vis-completion a {
-  white-space:nowrap;
-  margin:0px;
-  display:block;
-  cursor:pointer;
-  padding:1px 0px 1px 10px;
-  color:black;
+.editor-visual select, .editor-visual .chosen-container {
+  margin-bottom:10px;
 }
-.vis-completion .current {
-  background-color:Highlight;
-  color:HighlightText;
-  text-decoration:none;
+
+.editor-visual .chosen-container .chosen-choices
+{
+  border-radius:0px;
+  padding:3px;
 }
+.editor-visual .chosen-container-multi .chosen-choices .search-choice {
+  background:white;
+  border-style:none;
+  margin:4px;
+  box-shadow:none;
+  float:none;
+}
+
 
 /****************************** Normal text formatting *******************************/
 
