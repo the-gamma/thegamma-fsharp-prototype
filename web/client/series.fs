@@ -177,7 +177,7 @@ module Operations =
 
 open System.Runtime.CompilerServices
 
-[<Extension; ReflectedDefinition>]
+[<Extension; JS>]
 type SeriesExtensions = 
   [<Extension>]
   static member sum(s:series<'k, float>) = 
@@ -197,4 +197,19 @@ type SeriesExtensions =
   [<Extension>]
   static member series(values:list<'v>) =
      SeriesExtensions.series(values :> seq<_>) 
+
+[<Extension; JS>]
+type TupleExtensions = 
+  [<Extension>]
+  static member map((a,b), f) = (f a, f b)
+  [<Extension>]
+  static member map((a,b,c), f) = (f a, f b, f c)
+  [<Extension>]
+  static member map((a,b,c,d), f) = (f a, f b, f c, f d)
+  [<Extension>]
+  static member map((a,b,c,d,e), f) = (f a, f b, f c, f d, f e)
+  [<Extension>]
+  static member map((a,b,c,d,e,g), f) = (f a, f b, f c, f d, f e, f g)
+  [<Extension>]
+  static member map((a,b,c,d,e,g,h), f) = (f a, f b, f c, f d, f e, f g, f h)
 
