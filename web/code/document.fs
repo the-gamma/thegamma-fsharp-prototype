@@ -13,9 +13,9 @@ open Suave.Types
 open FSharp.Markdown
 
 let invalidChars = set(Path.GetInvalidFileNameChars())
-let pageTemplatePath = Path.Combine(__SOURCE_DIRECTORY__, "..", "web", "page-template.html")
-let editorTemplatePath = Path.Combine(__SOURCE_DIRECTORY__, "..", "web", "editor-template.html")
-let docpartTemplatePath = Path.Combine(__SOURCE_DIRECTORY__, "..", "web", "docpart-template.html")
+let pageTemplatePath = Path.Combine(__SOURCE_DIRECTORY__, "..", "templates", "page-template.html")
+let editorTemplatePath = Path.Combine(__SOURCE_DIRECTORY__, "..", "templates", "editor-template.html")
+let docpartTemplatePath = Path.Combine(__SOURCE_DIRECTORY__, "..", "templates", "docpart-template.html")
 
 type DocumentChunk =
   | Code of string

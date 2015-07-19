@@ -72,14 +72,13 @@ per capita. That is, the CO2 emissions for a single person living
 in each of the countries. As you can see in the following map, a
 very different picture appears:
 
+    let climate =
+      world.byYear
+        .``2010``.``Climate Change``
     let co2 =
-      world.byYear
-        .``2010``.``Climate Change``
-        .``CO2 emissions (kt)``
+      climate.``CO2 emissions (kt)``
     let population =
-      world.byYear
-        .``2010``.``Climate Change``
-        .``Total Population (in number of people)``
+      climate.``Total Population (in number of people)``
 
     let pcp =
       co2.joinInner(population)
@@ -137,7 +136,7 @@ USA around 2005 and it continues growing.
         world.byCountry.``United States`` ]
 
     let growths =
-      topCountries |> Seq.map(fun p ->
+      topCountries.map(fun p ->
         p.``Climate Change``.``CO2 emissions (kt)``
           .set(seriesName=p.name) )
 
