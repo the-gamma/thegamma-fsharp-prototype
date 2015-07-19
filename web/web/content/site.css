@@ -225,6 +225,11 @@ h1 {
   color:black;
 }
 
+h2 {
+  font:bold 22pt Rufina,'Times New Roman', Times, serif;
+  color:black;
+}
+
 p {
   font:normal 13pt 'Pontano Sans', sans-serif;
 }

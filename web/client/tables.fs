@@ -1,22 +1,22 @@
-namespace TheGamma.GoogleCharts
+namespace TheGamma
 
 open System
 open TheGamma
 open TheGamma.Series
 
 open FunScript
-open FunScript.TypeScript    
+open FunScript.TypeScript
 
-type Table<'k,'v> = 
+type Table<'k,'v> =
   { data : series<'k,'v> }
 
 [<ReflectedDefinition>]
 type table =
-  static member create(data:series<_, _>) = 
+  static member create(data:series<_, _>) =
     { Table.data = data }
 
 [<ReflectedDefinition>]
-module TableHelpers = 
+module TableHelpers =
   [<FunScript.JSEmitInline("document.getElementById(outputElementID)")>]
   let outputElement() : HTMLDivElement = failwith "!"
   [<FunScript.JSEmitInlineAttribute("blockCallback()")>]
@@ -25,16 +25,16 @@ module TableHelpers =
   [<FunScript.JSEmitInlineAttribute("numeral({0}).format({1})")>]
   let formatNumber (n:float) (format:string) : string = failwith "!"
 
-  let jq (s:obj) = 
+  let jq (s:obj) =
     Globals.jQuery.Invoke(unbox<string> s)
 
 open TableHelpers
 
 type Table<'k, 'v> with
   [<ReflectedDefinition>]
-  member t.show() = 
+  member t.show() =
     let table = jq("<table class='table table-striped' />")
-    let row (el:string) (things:string[]) = 
+    let row (el:string) (things:string[]) =
       let tr = jq("<tr />")
       for t in things do
         jq(el).text(t).appendTo(tr) |> ignore
@@ -51,11 +51,15 @@ type Table<'k, 'v> with
     jq(outputElement()).empty().append(table) |> ignore
     invokeBlockCallback()
 
-    async { 
+    async {
       let! vs = t.data.data
       tb.empty() |> ignore
-      for k, v in vs do 
-        (row "<td />" [| unbox k; formatNumber (unbox v) "0,0.00" |]).appendTo(tb) |> ignore } 
+      for k, v in vs do
+        (row "<td />" [| unbox k; formatNumber (unbox v) "0,0.00" |]).appendTo(tb) |> ignore }
     |> Async.StartImmediate
 
-   
+[<ReflectedDefinition>]
+type empty =
+  static member show() =
+    outputElement().innerHTML <- """<div class="loading"><p>No output produced.</p></div>"""
+    invokeBlockCallback()
