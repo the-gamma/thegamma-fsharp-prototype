@@ -96,6 +96,7 @@ let renderDocument fsi ctx = async {
   if file.[0] <> '/' || (Seq.exists invalidChars.Contains file.[1 ..]) then return None else
   let path = Path.Combine(__SOURCE_DIRECTORY__, "..", "demos", file.Substring(1) + ".md")
   if File.Exists(path) then
+    printfn "Processing file: %s" path
     let! html = transform fsi path
     return! ctx |> Successful.OK(html)
   else return None }

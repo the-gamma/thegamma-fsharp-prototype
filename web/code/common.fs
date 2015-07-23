@@ -17,11 +17,12 @@ type ResourceAgent<'T>(name, restartAfter, ctor:unit -> 'T, ?cleanup) =
         for i in 1 .. restartAfter do
           let! work = inbox.Receive()
           do! work resource
-      finally
-        do printfn "[ResourceAgent] Cleaning and recreating: %s" name
-        cleanup |> Option.iter (fun clean -> clean resource)
-        resource <- ctor()
-        do printfn "[ResourceAgent] Recreated: %s" name
+      with e ->
+        printfn "[ResourceAgent] Unhandled: %A" e
+      do printfn "[ResourceAgent] Cleaning and recreating: %s" name
+      try cleanup |> Option.iter (fun clean -> clean resource) with _ -> ()
+      resource <- ctor()
+      do printfn "[ResourceAgent] Recreated: %s" name
   })
   member x.Process<'R>(work) : Async<'R> =
     agent.PostAndAsyncReply(fun reply checker -> async {
@@ -31,11 +32,11 @@ type ResourceAgent<'T>(name, restartAfter, ctor:unit -> 'T, ?cleanup) =
 /// Split the input string into an array of lines (using \r\n or \n as separator)
 let getLines (s:string) = s.Replace("\r\n", "\n").Split('\n')
 
-let asyncMap f list = 
+let asyncMap f list =
   let rec loop acc list = async {
-    match list with 
+    match list with
     | [] -> return List.rev acc
-    | x::xs -> 
+    | x::xs ->
         let! r = f x
         return! loop (r::acc) xs }
   loop [] list

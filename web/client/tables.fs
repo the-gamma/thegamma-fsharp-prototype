@@ -25,6 +25,9 @@ module TableHelpers =
   [<FunScript.JSEmitInlineAttribute("numeral({0}).format({1})")>]
   let formatNumber (n:float) (format:string) : string = failwith "!"
 
+  [<FunScript.JSEmitInlineAttribute("isNaN({0})")>]
+  let isNaN(n:float) : bool = failwith "!"
+
   let jq (s:obj) =
     Globals.jQuery.Invoke(unbox<string> s)
 
@@ -55,7 +58,7 @@ type Table<'k, 'v> with
       let! vs = t.data.data
       tb.empty() |> ignore
       for k, v in vs do
-        (row "<td />" [| unbox k; formatNumber (unbox v) "0,0.00" |]).appendTo(tb) |> ignore }
+        (row "<td />" [| unbox k; (if isNaN (unbox v) then "" else formatNumber (unbox v) "0,0.00") |]).appendTo(tb) |> ignore }
     |> Async.StartImmediate
 
 [<ReflectedDefinition>]
