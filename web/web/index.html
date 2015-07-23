@@ -32,6 +32,26 @@
   <!-- Custom site styles and scripts -->
   <link href="/content/site.css" rel="stylesheet" />
   <script src="/scripts/custom.js"></script>
+  <style type="text/css">
+    body, header { border-color:black; background:black; }
+    #main { background:white; padding:50px 0px 100px 0px; }
+    .black h2, .black p { color:white; text-align:center; }
+    #btn1, #btn2, #btn3 {
+      cursor:pointer;
+      position:absolute;
+      right:10px;
+      padding:10px;
+      border-radius:10px;
+      width:200px;
+      color:white;
+      font:bold 13pt 'Pontano Sans', sans-serif;
+      background:black;
+    }
+    .black p a { text-decoration:underline; color:white; }
+    .black p { font-size:14pt; }
+    #btn1 i, #btn2 i, #btn3 i { margin-left:10px; margin-right:10px; }
+  </style>
+
 </head>
 
 <body>
@@ -52,14 +72,40 @@
       </div>
     </div>
   </header>
-  <div class="container" id="main">
+  <div id="main">
     <div class="row">
-      <div class="col-md-9">
-        <h1>Coming soon</h1>
-      </div>
-      <div class="col-md-3" style="">
-        <div id="editor-documentation-side" style="position:relative;top:100px;display:none">
+      <div class="col-md-12">
+        <div style="position:relative;margin-left:auto;margin-right:auto;max-width:1024px;">
+          <div id="btn1" style="top:10px;"><i class="fa fa-gear"></i> Explore &amp; edit</div>
+          <div id="btn2" style="top:60px;"><i class="fa fa-code"></i> See the code</div>
+          <div id="btn3" style="top:110px;"><i class="fa fa-pencil-square-o"></i> Learn &amp; create</div>
+          <a id="lnk" href="images/start.png"><img id="anim" style="width:100%" src="images/start.png" /></a>
         </div>
+
+        <script type="text/javascript">
+        $(function(){
+          var wi = new Image();
+          var ji = new Image();
+          var ci = new Image();
+          wi.src ='images/gif1.gif';
+          ji.src ='images/gif2.gif';
+          ci.src ='images/gif3.gif';
+          $('#btn1').click(function(){ $('#anim').attr('src',wi.src); $('#lnk').attr('href',wi.src); });
+          $('#btn2').click(function(){ $('#anim').attr('src',ji.src); $('#lnk').attr('href',ji.src); });
+          $('#btn3').click(function(){ $('#anim').attr('src',ci.src); $('#lnk').attr('href',ci.src); });
+        });</script>
+      </div>
+    </div>
+  </div>
+  <div class="container" style="position:relative; top:170px">
+    <div class="row">
+      <div class="col-md-12 black">
+        <h2>TheGamma project is work in progress, but will be ready soon!</h2>
+        <p>Do you want to play with the current version live? Do you want to
+          be the first to know when it's ready?</p>
+        <p>Send email to <a href="mailto:tomas@tomasp.net">tomas@tomasp.net</a>
+          or ping me on <a href="http://twitter.com/tomaspetricek">@tomaspetricek</a>
+          for early access and more info.
       </div>
     </div>
   </div>
