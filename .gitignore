@@ -10,3 +10,7 @@ web/paket-files
 web/thegamma/bin
 *.bak
 *.suo
+.fake
+*.svclog
+slides/*/packages
+slides/*/output

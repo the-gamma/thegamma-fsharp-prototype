@@ -31,31 +31,36 @@ header.scrolled h1 {
   top:140px;
   transition:top 1s;
 }
-header .icons {
-  text-align:right;
-}
 header .icons a, header .icons a:visited, header .icons a:hover {
+  float:right;
   border-radius:20px;
   background:white;
-  padding:2px 7px 0px 0px;
+  padding:2px 0px 0px 6px;
   display:block;
   width:40px;
   height:40px;
   font-size:25px;
-  float:right;
   color:black;
-  margin:30px 20px 0px 0px;
+  margin:15px 20px 0px 0px;
   transition:all 1s;
 }
 header.scrolled .icons a {
   border-radius:15px;
-  padding:0px 4px 0px 0px;
+  padding:0px 0px 0px 6px;
   width:30px;
   height:30px;
   font-size:20px;
-  margin-top:15px;
+  margin-top:2px;
 }
-
+@media (min-width:768px)
+{
+  header .icons a, header .icons a:visited, header .icons a:hover {
+    margin-top:25px;
+  }
+  header.scrolled .icons a {
+    margin-top:10px;
+  }
+}
 /****************************** Editor wrapper and output *******************************/
 
 /* Wrapper around the Markdown editor */
