@@ -15,7 +15,7 @@ open TheGamma.Series
 //
 // --------------------------------------------------------------------------------------------------------------------
 
-type Indicators = JsonProvider<"samples/indicators.json", Culture="en-US">
+type Indicators = JsonProvider<"http://api.worldbank.org/indicator?per_page=120&format=json">
 type Countries = JsonProvider<"http://api.worldbank.org/country?per_page=100&format=json">
 type Regions = JsonProvider<"http://api.worldbank.org/regions?per_page=100&format=json">
 type Data = JsonProvider<"http://api.worldbank.org/countries/indicators/SP.POP.TOTL?per_page=1000&date=2010:2010&format=json">
@@ -126,9 +126,9 @@ module WorldBankGenerator =
       indicators 
       |> Seq.collect (fun ind -> [ for t in ind.Topics -> t.Value ]) 
       |> Seq.distinct
-      |> Seq.filter (fun topic -> topic.Trim() <> "")
+      |> Seq.choose (function Some(t) when t.Trim() <> "" -> Some(t) | _ -> None)
       |> Seq.map (fun topic ->
-          let inds = indicators |> Seq.filter (fun i -> i.Topics |> Seq.exists (fun t -> t.Value = topic))
+          let inds = indicators |> Seq.filter (fun i -> i.Topics |> Seq.exists (fun t -> t.Value = Some topic))
           topic.Trim(), Array.ofSeq inds )
     let topics = Seq.append ["All indicators", indicators] topics
     return { Topics = Array.ofSeq topics } }
@@ -175,7 +175,7 @@ type public WorldBank(cfg:TypeProviderConfig) as this =
         let topics = 
           if indicator.Topics.Length = 0 then ""
           else 
-            (indicator.Topics |> Seq.map (fun t -> t.Value) |> String.concat ", ")
+            (indicator.Topics |> Seq.choose (fun t -> t.Value) |> String.concat ", ")
             |> sprintf "<p><strong>Topics:</strong> %s</p>"
         sprintf 
           "<h2>%s</h2><p>%s</p><p><strong>Source:</strong> %s</p> %s" 
