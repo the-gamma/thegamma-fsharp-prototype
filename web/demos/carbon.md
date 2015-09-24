@@ -78,7 +78,7 @@ very different picture appears:
     let co2 =
       climate.``CO2 emissions (kt)``
     let population =
-      climate.``Total Population (in number of people)``
+      climate.``Population, total``
 
     let pcp =
       co2.joinInner(population)
