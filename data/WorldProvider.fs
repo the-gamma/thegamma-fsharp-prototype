@@ -15,7 +15,7 @@ open TheGamma.Series
 //
 // --------------------------------------------------------------------------------------------------------------------
 
-type Indicators = JsonProvider<"http://api.worldbank.org/indicator?per_page=100&format=json">
+type Indicators = JsonProvider<"samples/indicators.json", Culture="en-US">
 type Countries = JsonProvider<"http://api.worldbank.org/country?per_page=100&format=json">
 type Regions = JsonProvider<"http://api.worldbank.org/regions?per_page=100&format=json">
 type Data = JsonProvider<"http://api.worldbank.org/countries/indicators/SP.POP.TOTL?per_page=1000&date=2010:2010&format=json">
@@ -24,6 +24,8 @@ type IndicatorInfo =
   { Topics : (string * Indicators.Record[])[] }
 
 module WorldBankGenerator =
+//  JsonProvider<"""{"a":"1.0"}""", Culture="pl-PL">.GetSample().
+ 
   let googleChartsRegions = 
     [ "015", (*Northern Africa*) [ "DZ"; "EG"; "EH"; "LY"; "MA"; "SD"; "TN" ]  
       "011", (*Western Africa*) [ "BF"; "BJ"; "CI"; "CV"; "GH"; "GM"; "GN"; "GW"; "LR"; "ML"; "MR"; "NE"; "NG"; "SH"; "SL"; "SN"; "TG" ]
