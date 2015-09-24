@@ -91,8 +91,18 @@ let evalFunScript code { Session = fsiSession; ErrorString = sbErr } = async {
 open Suave.Http
 open Suave.Http.Applicatives
 
-let evaluate (fsi:ResourceAgent<FsiSession>) code = 
-  fsi.Process(evalFunScript code)
+let cache = System.Collections.Concurrent.ConcurrentDictionary()
+
+let evaluate (fsi:ResourceAgent<FsiSession>) code = async {
+  match cache.TryGetValue(code) with
+  | true, (_, res) -> 
+      printfn "----- reading from cache"
+      return res
+  | _ ->
+      printfn "----- calculating"
+      let! res = fsi.Process(evalFunScript code)
+      cache.[code] <- (DateTime.UtcNow, res)
+      return res }
  
 let webPart fsi =
   path "/run" >>= withRequestParams (fun (_, _, source) ctx -> async { 
