@@ -126,10 +126,10 @@ module WorldBankGenerator =
       indicators 
       |> Seq.collect (fun ind -> [ for t in ind.Topics -> t.Value ]) 
       |> Seq.distinct
-      |> Seq.filter (fun topic -> topic.Trim() <> "")
+      |> Seq.filter (fun (topic : string option) -> topic |> Option.exists (fun t ->  t.Trim() <> ""))
       |> Seq.map (fun topic ->
           let inds = indicators |> Seq.filter (fun i -> i.Topics |> Seq.exists (fun t -> t.Value = topic))
-          topic.Trim(), Array.ofSeq inds )
+          topic.Value.Trim(), Array.ofSeq inds )
     let topics = Seq.append ["All indicators", indicators] topics
     return { Topics = Array.ofSeq topics } }
 
@@ -175,7 +175,7 @@ type public WorldBank(cfg:TypeProviderConfig) as this =
         let topics = 
           if indicator.Topics.Length = 0 then ""
           else 
-            (indicator.Topics |> Seq.map (fun t -> t.Value) |> String.concat ", ")
+            (indicator.Topics |> Seq.map (fun t -> t.Value) |> Seq.filter (fun t -> t.IsSome) |> Seq.map (fun t -> t.Value) |> String.concat ", ")
             |> sprintf "<p><strong>Topics:</strong> %s</p>"
         sprintf 
           "<h2>%s</h2><p>%s</p><p><strong>Source:</strong> %s</p> %s" 
