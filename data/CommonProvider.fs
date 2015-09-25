@@ -34,6 +34,8 @@ open System.Text
 
 module Cache =
 
+  let preferLocalCache = true
+
   /// Get hash code of a string - used to determine cache file
   let private hashString (plainText:string) =
     let plainTextBytes = Encoding.UTF8.GetBytes(plainText)
@@ -57,9 +59,11 @@ module Cache =
     downloadCache
 
   let downloadCache =
-    try createCacheSubDir (getINetCacheFolder())
-    with _ -> createCacheSubDir (getLocalCacheFolder())
-
+    if preferLocalCache then
+      createCacheSubDir (getLocalCacheFolder())
+    else
+      try createCacheSubDir (getINetCacheFolder())
+      with _ -> createCacheSubDir (getLocalCacheFolder())
 
   // Get file name for a given string (using hash)
   let cacheFile key =
