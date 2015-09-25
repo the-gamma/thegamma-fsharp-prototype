@@ -41,9 +41,15 @@ header .icons a, header .icons a:visited, header .icons a:hover {
   height:40px;
   font-size:25px;
   color:black;
-  margin:15px 20px 0px 0px;
+  margin:15px 20px 0px 2px;
+
   transition:all 1s;
 }
+
+header .icons a i {
+  margin-left: 1px;
+}
+
 header.scrolled .icons a {
   border-radius:15px;
   padding:0px 0px 0px 6px;
@@ -51,7 +57,13 @@ header.scrolled .icons a {
   height:30px;
   font-size:20px;
   margin-top:2px;
+  margin-left: 0;
 }
+
+header.scrolled .icons a i {
+  margin-left: -1px;
+}
+
 @media (min-width:768px)
 {
   header .icons a, header .icons a:visited, header .icons a:hover {

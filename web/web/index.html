@@ -44,17 +44,23 @@
       background:black;
     }
     #btn1 i, #btn2 i, #btn3 i { margin-left:10px; margin-right:10px; }
-    
-    #ss-submit { height:90px; }
+
+    #ss-submit { height:92px; }
     .btn-primary { background: #202020; border-color: #202020; }
     .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
       background: #606060; border-color: #606060; }
-    #entry_172557943 { color:#909090; }
+    #entry_902762028 {
+      color:#909090;
+      border-bottom-left-radius: 0;
+    }
+    #entry_172557943 {
+      border-bottom-left-radius: 6px;
+      color:#909090; }
     #wrap { padding:100px 0px 150px 0px; }
-    
+
     .jumbotron h1 { font-size:34pt; }
     .jumbotron p { margin:30px 0px 40px 0px; font-size:14pt; }
-    
+
     .inverted h2 { color:#e8e8e8; margin-bottom:10px; }
     .inverted p, .inverted li { color:white; font-size:14pt; }
     .inverted a { color:#80e0ff; }
@@ -68,13 +74,13 @@
   <header id="header">
     <div class="container">
       <div class="row">
-        <div class="col-sm-12">          
+        <div class="col-sm-12">
           <div class="icons">
             <a href="mailto:tomas@tomasp.net">
-              <i class="fa fa-envelope"></i>
+              <i class="fa fa-envelope icon"></i>
             </a>
             <a href="http://twitter.com/tomaspetricek">
-              <i class="fa fa-twitter"></i>
+              <i class="fa fa-twitter icon"></i>
             </a>
           </div>
           <h1 style="color:black">
@@ -84,7 +90,7 @@
       </div>
     </div>
   </header>
-  
+
   <div id="wrap">
     <div class="container">
       <div class="row">
@@ -97,9 +103,9 @@
               We are working on the first version of TheGamma. If you want to be part of the
               early preview, let us know here!
             </p>
-            
+
             <form action="https://docs.google.com/forms/d/1QhOoo9g6M6WhtZcMxOcURH1pQLpLLVIuTN1omvJLbWA/formResponse" method="POST" id="ss-form" target="_self" onsubmit=""><ol role="list" class="ss-question-list" style="padding-left: 0">
-              
+
             <div class="input-group input-group-lg">
               <input placeholder="hello@thegamma.net" type="text" name="entry.902762028" value="" class="form-control ss-q-short" id="entry_902762028" dir="auto" aria-label="Email  " title="">
               <select class="form-control" name="entry.172557943" id="entry_172557943" aria-label="Industry"><option value="">what are you interested in?</option>
@@ -108,18 +114,18 @@
                 <input type="submit" name="submit" class="btn btn-primary btn-lg" value="Sign up" id="ss-submit">
               </span>
             </div>
-            
+
             <input type="hidden" name="draftResponse" value="[,,&quot;-2799700618843047135&quot;]">
             <input type="hidden" name="pageHistory" value="0">
             <input type="hidden" name="fvv" value="0">
             <input type="hidden" name="fbzx" value="-2799700618843047135">
             </form>
-          
-          </div>  
+
+          </div>
         </div>
         <div class="col-sm-1"></div>
-      </div> 
-    </div> 
+      </div>
+    </div>
 
     <div class="inverted" id="info">
       <div class="container">
@@ -130,9 +136,9 @@
             <p>Check out our sample
               <a href="/carbon">report on carbon emissions</a> using the
               World Bank data.</p>
-            <p>You could have written it yourself! It is easy. See the <a href="https://github.com/tpetricek/TheGamma/blob/master/web/demos/carbon.md">report source 
+            <p>You could have written it yourself! It is easy. See the <a href="https://github.com/tpetricek/TheGamma/blob/master/web/demos/carbon.md">report source
               on GitHub</a>.</p>
-            <p>See the examples below for interesting ways to 
+            <p>See the examples below for interesting ways to
               interact with the report.</p>
           </div>
           <div class="col-sm-4">
@@ -153,7 +159,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="container">
       <div class="row">
         <div class="col-sm-1"></div>
@@ -165,7 +171,7 @@
             <div id="btn3" style="top:110px;"><i class="fa fa-pencil-square-o"></i> Learn &amp; create</div>
             <a id="lnk" href="images/start.png"><img id="anim" style="width:100%" src="images/start.png" /></a>
           </div>
-  
+
           <script type="text/javascript">
           $(function(){
             var wi = new Image();
@@ -174,16 +180,16 @@
             wi.src ='images/gif1.gif?';
             ji.src ='images/gif2.gif?';
             ci.src ='images/gif3.gif?';
-            $('#btn1').click(function(){ 
-              $('#anim').attr('src',wi.src); $('#lnk').attr('href',wi.src); 
+            $('#btn1').click(function(){
+              $('#anim').attr('src',wi.src); $('#lnk').attr('href',wi.src);
               wi.src = wi.src + "1";
             });
-            $('#btn2').click(function(){ 
-              $('#anim').attr('src',ji.src); $('#lnk').attr('href',ji.src); 
+            $('#btn2').click(function(){
+              $('#anim').attr('src',ji.src); $('#lnk').attr('href',ji.src);
               ji.src = ji.src + "1";
             });
-            $('#btn3').click(function(){ 
-              $('#anim').attr('src',ci.src); $('#lnk').attr('href',ci.src); 
+            $('#btn3').click(function(){
+              $('#anim').attr('src',ci.src); $('#lnk').attr('href',ci.src);
               ci.src = ci.src + "1";
             });
           });</script>
@@ -193,9 +199,9 @@
         <div class="col-sm-1"></div>
       </div>
     </div>
-    
-  </div>  
-  
+
+  </div>
+
   <div id="footer" class="inverted">
     <div class="container">
       <p>
@@ -205,15 +211,15 @@
       </p>
     </div>
   </div>
-  
+
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  
+
     ga('create', 'UA-65311433-1', 'auto');
     ga('send', 'pageview');
   </script>
-</body>  
+</body>
 </html>
