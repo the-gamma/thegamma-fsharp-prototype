@@ -1,0 +1,14 @@
+[Fake]
+linuxPrefix = "mono"
+command = "build.cmd"
+build = "web/build.fsx"
+
+[WebPreview]
+linuxPrefix = "mono"
+command = "web/packages/FAKE/tools/FAKE.exe"
+host = "localhost"
+port = 8087
+script = "web/build.fsx"
+build = "Run"
+startString = "listener started"
+parameters = ["--fsiargs"]
