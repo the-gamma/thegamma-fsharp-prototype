@@ -48,6 +48,7 @@ let app =
       Evaluator.webPart fsi
       Visualizers.webPart checker
       staticWebFile
+      path "/oauth2callback" >>= request (fun r -> Successful.OK (sprintf "%A" r) )
       RequestErrors.NOT_FOUND("Not found") ]
 
 // -------------------------------------------------------------------------------------------------
