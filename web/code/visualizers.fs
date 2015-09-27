@@ -194,6 +194,8 @@ type JsonTypes = JsonProvider<"""{
 let webPart (checker:ResourceAgent<_>) =
   path "/visualizers" >>= 
   Writers.setHeader "Access-Control-Allow-Origin" "*" >>= 
+  Writers.setHeader "Access-Control-Allow-Headers" "Accept, Content-Type" >>= 
+  Writers.setHeader "Access-Control-Allow-Method" "POST, GET" >>= 
   withRequestParams (fun (_, _, source) ctx -> async { 
     let! sl = checker.Process (getSingleLevelVisualizers (Config.scriptFile, Config.loadScriptString + source))
     let! ls = checker.Process (getListVisualizers (Config.scriptFile, Config.loadScriptString + source))

@@ -160,7 +160,9 @@ let loadScriptString =
 
 /// The main handler for Suave server!
 let webPart (checker:ResourceAgent<FSharpChecker>) =
-  Writers.setHeader "Access-Control-Allow-Origin" "*" >>= fun ctx -> async {
+  Writers.setHeader "Access-Control-Allow-Origin" "*" >>= 
+  Writers.setHeader "Access-Control-Allow-Headers" "Accept, Content-Type" >>= 
+  Writers.setHeader "Access-Control-Allow-Method" "POST, GET" >>= fun ctx -> async {
   match ctx.request.url.LocalPath, getRequestParams ctx with
 
   // Type-check the source code & return list with error information
