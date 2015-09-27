@@ -105,11 +105,7 @@ let evaluate (fsi:ResourceAgent<FsiSession>) code = async {
       return res }
  
 let webPart fsi =
-  path "/run" >>= 
-  Writers.setHeader "Access-Control-Allow-Origin" "*" >>= 
-  Writers.setHeader "Access-Control-Allow-Headers" "Accept, Content-Type" >>= 
-  Writers.setHeader "Access-Control-Allow-Method" "POST, GET" >>= 
-    withRequestParams (fun (_, _, source) ctx -> async { 
+  path "/run" >>= withRequestParams (fun (_, _, source) ctx -> async { 
       // Transform F# `source` into JavaScript and return it
       let! jscode = evaluate fsi source
       match jscode with

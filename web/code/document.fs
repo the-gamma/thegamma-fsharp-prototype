@@ -14,6 +14,7 @@ open FSharp.Markdown
 
 let invalidChars = set(Path.GetInvalidFileNameChars())
 let pageTemplatePath = Path.Combine(__SOURCE_DIRECTORY__, "..", "templates", "page-template.html")
+let iframeTemplatePath = Path.Combine(__SOURCE_DIRECTORY__, "..", "templates", "iframe-template.html")
 let editorTemplatePath = Path.Combine(__SOURCE_DIRECTORY__, "..", "templates", "editor-template.html")
 let docpartTemplatePath = Path.Combine(__SOURCE_DIRECTORY__, "..", "templates", "docpart-template.html")
 
@@ -80,8 +81,8 @@ let transformBlock (doc:MarkdownDocument) fsi counter block = async {
           return editorTemplate.Replace("[ID]", id).Replace("[SCRIPT]", js).Replace("[SOURCE]", encoded)
       | Choice2Of2(err) -> return err.ToString() }
 
-let transform fsi path = async {
-  let pageTemplate = File.ReadAllText(pageTemplatePath)
+let transform fsi template path = async {
+  let pageTemplate = File.ReadAllText(template)
   let doc = Markdown.Parse(File.ReadAllText(path))
   let blocks = doc.Paragraphs |> chunkByCodeBlocks [] |> List.ofSeq
 
@@ -97,7 +98,11 @@ let renderDocument fsi ctx = async {
   let path = Path.Combine(__SOURCE_DIRECTORY__, "..", "demos", file.Substring(1) + ".md")
   if File.Exists(path) then
     printfn "Processing file: %s" path
-    let! html = transform fsi path
+    let template = 
+      match ctx.request.queryParam "iframe" with
+      | Choice1Of2 _ -> iframeTemplatePath
+      | _ -> pageTemplatePath
+    let! html = transform fsi template path
     return! ctx |> Successful.OK(html)
   else return None }
 
