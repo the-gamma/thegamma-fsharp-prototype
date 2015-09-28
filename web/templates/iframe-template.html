@@ -30,22 +30,31 @@
   <!-- Custom site styles and scripts -->
   <link href="/content/site.css" rel="stylesheet" />
   <script src="/scripts/custom.js"></script>
+  <script type="text/javascript">
+    function onElementHeightChange(elm, callback) {
+      var lastHeight = elm.clientHeight, newHeight;
+      (function run() {
+        newHeight = elm.clientHeight;
+        if (lastHeight != newHeight) callback();
+        lastHeight = newHeight;
+        if (elm.onElementHeightChangeTimer) clearTimeout(elm.onElementHeightChangeTimer);
+        elm.onElementHeightChangeTimer = setTimeout(run, 500);
+      })();
+    }
+
+    $(function () {
+      onElementHeightChange(document.body, function () {
+        parent.postMessage({'action':'resize', 'height':document.body.clientHeight}, "*");
+      });
+    });
+  </script>
+  <style>
+    html, body { overflow:hidden; }
+  </style>
 </head>
-
 <body>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-9">
+  [BODY]
 
-        [BODY]
-
-      </div>
-      <div class="col-md-3" style="">
-        <div id="editor-documentation-side" style="position:relative;top:100px;display:none">
-        </div>
-      </div>
-    </div>
-  </div>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

@@ -202,7 +202,10 @@ var DocumentationSide = function()
   var documentationElement = document.getElementById('editor-documentation-side');
 
   function showElement(b) {
-    utils.showElement(documentationElement, b);
+    if (documentationElement != null)
+      utils.showElement(documentationElement, b);
+    else
+      parent.postMessage({'action':'showtip', 'visible':b}, "*");  
   };
 
   function showDocumentation(documentation) {
@@ -211,18 +214,25 @@ var DocumentationSide = function()
     }
     else {
       showElement(true);
-      if (documentation.trim().indexOf("[JAVASCRIPT]") == 0) {
-        eval("(" + documentation.trim().substr("[JAVASCRIPT]".length) + ")")(documentationElement);
-      }
-      else {
-        documentationElement.innerHTML = documentation;
+      if (documentationElement != null)
+      {
+        if (documentation.trim().indexOf("[JAVASCRIPT]") == 0) {
+          eval("(" + documentation.trim().substr("[JAVASCRIPT]".length) + ")")(documentationElement);
+        } else {
+          documentationElement.innerHTML = documentation;
+        }
+      } else {
+        parent.postMessage({'action':'tip', 'html':documentation.trim()}, "*");
       }
     }
   }
 
   function moveElement(top) {
-    var headerHeight = document.getElementById("header").offsetHeight;
-    documentationElement.style.top = (top - headerHeight - 20) + "px";
+    if (documentationElement != null)
+    {
+      var headerHeight = document.getElementById("header").offsetHeight;
+      documentationElement.style.top = (top - headerHeight - 20) + "px";
+    }
   }
 
   this.moveElement = moveElement;
