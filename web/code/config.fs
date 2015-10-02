@@ -8,7 +8,8 @@ let loadScript =
   [| "#load \"load.fsx\"\n"
      "open TheGamma\n"
      "open TheGamma.Series\n"
-     "open TheGamma.GoogleCharts\n" |]
+     "open TheGamma.GoogleCharts\n"
+     "open FunScript.TypeScript\n" |]
 
 let loadScriptString =
   String.Concat(loadScript)

@@ -111,6 +111,11 @@ module Operations =
         arr |> Array.sortWith (fun (_,v1) (_,v2) -> compare v1 v2)
             |> (if reverse = Some true then Array.rev else id))
 
+    member s.sortBy(f, ?reverse) =
+      s |> lift (fun arr ->
+        arr |> Array.sortWith (fun (_,v1) (_,v2) -> compare (f v1) (f v2))
+            |> (if reverse = Some true then Array.rev else id))
+
     member s.reverse() =
       s |> lift (Array.rev)
 
@@ -174,6 +179,12 @@ module Operations =
 
     member s.first() =
       s |> liftAggregation (fun arr -> snd arr.[0])
+
+    member s.minBy(f) =
+      s |> liftAggregation (Array.minBy (fun (k, v) -> f v))
+
+    member s.maxBy(f) =
+      s |> liftAggregation (Array.maxBy (fun (k, v) -> f v))
 
 open System.Runtime.CompilerServices
 

@@ -98,12 +98,29 @@ let renderDocument fsi ctx = async {
   let path = Path.Combine(__SOURCE_DIRECTORY__, "..", "demos", file.Substring(1) + ".md")
   if File.Exists(path) then
     printfn "Processing file: %s" path
-    let template = 
-      match ctx.request.queryParam "iframe" with
-      | Choice1Of2 _ -> iframeTemplatePath
-      | _ -> pageTemplatePath
-    let! html = transform fsi template path
-    return! ctx |> Successful.OK(html)
+    match ctx.request.queryParam "export" with
+    | Choice1Of2 s ->
+        // Export the specified javascript functions
+        let doc = Markdown.Parse(File.ReadAllText(path))
+        let code = doc.Paragraphs |> List.pick (function CodeBlock(code, _, _) -> Some code | _ -> None)
+        let code = code + "[|" + String.concat ";" [ for f in s.Split(',') -> "box " + f ] + "|]"
+        let! js = Evaluator.evaluate fsi code
+        let js = match js with Choice1Of2 js -> js | _ -> ""
+        let js = "var exports = (function() { " + js + "})();\n"
+        let exports = 
+          s.Split(',') |> Seq.mapi (fun i f ->
+            sprintf "var %s = exports[%d];" f i)
+          |> String.concat "\n"
+        return! ctx |> Successful.OK(js + exports)
+
+    | _ ->
+        // Process document using normal or iframe template
+        let template = 
+          match ctx.request.queryParam "iframe" with
+          | Choice1Of2 _ -> iframeTemplatePath
+          | _ -> pageTemplatePath
+        let! html = transform fsi template path
+        return! ctx |> Successful.OK(html)
   else return None }
 
 open Suave.Http.Applicatives
