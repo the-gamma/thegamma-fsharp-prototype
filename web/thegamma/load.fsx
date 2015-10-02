@@ -7,6 +7,7 @@
 #r "bin/TheGamma.Data.dll"
 #r "bin/TheGamma.Json.dll"
 #r "bin/TheGamma.World.dll"
+#r "bin/TheGamma.Sheets.dll"
 
 #load "../client/series.fs"
 #load "../client/google/core.fs"

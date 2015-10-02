@@ -45,7 +45,7 @@ let serverConfig =
   { defaultConfig with
       homeFolder = Some __SOURCE_DIRECTORY__
       logger = Logging.Loggers.saneDefaultsFor Logging.LogLevel.Debug
-      bindings = [ HttpBinding.mk' HTTP  "127.0.0.1" 8087] }
+      bindings = [ HttpBinding.mk' HTTP  "127.0.0.1" 80] }
 
 let reloadAppServer () =
   reloadScript() |> Option.iter (fun app ->

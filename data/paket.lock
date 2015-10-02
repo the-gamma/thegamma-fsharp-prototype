@@ -1,14 +1,24 @@
 NUGET
   remote: https://www.nuget.org/api/v2
   specs:
-    FAKE (3.35.5)
+    FAKE (4.4.4)
     FSharp.Compiler.Tools (3.1.2.2)
-    FSharp.Data (2.2.3)
+    FSharp.Data (2.2.5)
       Zlib.Portable (>= 1.10.0) - framework: portable-net40+sl50+wp80+win80
+    Google.GData.Client (2.2.0.0)
+      Newtonsoft.Json (>= 4.0.5)
+    Google.GData.Extensions (2.2.0.0)
+      Google.GData.Client (>= 2.2.0.0)
+      Newtonsoft.Json (>= 4.0.5)
+    Google.GData.Spreadsheets (2.2.0.0)
+      Google.GData.Client (>= 2.2.0.0)
+      Google.GData.Extensions (>= 2.2.0.0)
+      Newtonsoft.Json (>= 4.0.5)
+    Newtonsoft.Json (7.0.1)
     Zlib.Portable (1.11.0) - framework: portable-net40+sl50+wp80+win80
 GITHUB
   remote: fsprojects/FSharp.TypeProviders.StarterPack
   specs:
-    src/DebugProvidedTypes.fs (c098da43ef99c9f15f7ed7ec4726dace9b95ad06)
-    src/ProvidedTypes.fs (c098da43ef99c9f15f7ed7ec4726dace9b95ad06)
-    src/ProvidedTypes.fsi (c098da43ef99c9f15f7ed7ec4726dace9b95ad06)
+    src/DebugProvidedTypes.fs (7b14087a976df7477ef06c496933b8f8369ad5f5)
+    src/ProvidedTypes.fs (7b14087a976df7477ef06c496933b8f8369ad5f5)
+    src/ProvidedTypes.fsi (7b14087a976df7477ef06c496933b8f8369ad5f5)

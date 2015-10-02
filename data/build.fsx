@@ -53,6 +53,9 @@ let reloadWebApp () =
 let buildProviders () =
   let refs =
     [ yield "packages/FSharp.Data/lib/net40/FSharp.Data.dll"
+      yield "packages/Google.GData.Client/lib/Google.GData.Client.dll"
+      yield "packages/Google.GData.Extensions/lib/Google.GData.Extensions.dll"
+      yield "packages/Google.GData.Spreadsheets/lib/Google.GData.Spreadsheets.dll"
       yield! Directory.GetFiles("lib") ]
 
   CopyFiles tempBin (!! ("lib/*.*"))
@@ -60,6 +63,7 @@ let buildProviders () =
   buildLibrary "TheGamma.Data.fsproj" refs
   buildLibrary "TheGamma.Json.fsproj" refs
   buildLibrary "TheGamma.World.fsproj" refs
+  buildLibrary "TheGamma.Sheets.fsproj" refs
   reloadWebApp()
 
 Target "Build" (fun _ ->
