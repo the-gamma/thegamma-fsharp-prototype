@@ -16,25 +16,40 @@ let fsc = __SOURCE_DIRECTORY__ @@ "packages/FSharp.Compiler.Tools/tools/fsc.exe"
 
 type FsProj = XmlProvider<"TheGamma.World.fsproj">
 
+/// Build the specified type provider (but only when some of the files have changed)
 let buildLibrary (name:string) refs =
   let fsproj = FsProj.Load(name)
   let files =
     [ for it in fsproj.ItemGroups do
         for c in it.Compiles do yield c.Include ]
+  
   let projRefs =
     [ for it in fsproj.ItemGroups do
         for pr in it.ProjectReferences do yield tempBin @@ pr.Name + ".dll" ]
 
-  let files = files |> String.concat " "
-  let refs = projRefs @ refs |> List.map (sprintf "--reference:%s") |> String.concat " "
   let out = tempBin @@ (Path.ChangeExtension(name, "dll"))
-  let res = TimeSpan.MaxValue |> ExecProcessAndReturnMessages (fun ps ->
-    let args = refs + (sprintf " -g --debug:full --optimize- --out:%s --target:library %s" out files)
-    ps.WorkingDirectory <- __SOURCE_DIRECTORY__
-    ps.FileName <- fsc
-    ps.Arguments <- args)
-  res.Messages |> Seq.iter trace
-  res.Errors |> Seq.iter traceError
+  let outWrite = File.GetLastWriteTime(__SOURCE_DIRECTORY__ @@ out)
+
+  let anyFileChanged = 
+    not (File.Exists(out)) || 
+    ( List.append files projRefs
+      |> List.map (fun f -> File.GetLastWriteTime(__SOURCE_DIRECTORY__ @@ f))
+      |> List.exists (fun dt -> dt > outWrite) )
+  
+  if anyFileChanged then
+    trace (name + " has been changed. Recompiling...")
+    let files = files |> String.concat " "
+    let refs = projRefs @ refs |> List.map (sprintf "--reference:%s") |> String.concat " "
+    let res = TimeSpan.MaxValue |> ExecProcessAndReturnMessages (fun ps ->
+      let args = refs + (sprintf " -g --debug:full --optimize- --out:%s --target:library %s" out files)
+      ps.WorkingDirectory <- __SOURCE_DIRECTORY__
+      ps.FileName <- fsc
+      ps.Arguments <- args)
+    res.Messages |> Seq.iter trace
+    res.Errors |> Seq.iter traceError
+  else
+    trace (name + " has not been changed. Skipping...")
+
 
 let reloadWebApp () =
   File.WriteAllText(stopFile, "stop")
@@ -59,6 +74,7 @@ let buildProviders () =
   CopyFiles tempBin (!! ("packages/FSharp.Data/lib/net40/*"))
   buildLibrary "TheGamma.Data.fsproj" refs
   buildLibrary "TheGamma.Json.fsproj" refs
+  buildLibrary "TheGamma.Html.fsproj" refs
   buildLibrary "TheGamma.World.fsproj" refs
   reloadWebApp()
 

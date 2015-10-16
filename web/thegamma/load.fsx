@@ -6,6 +6,7 @@
 
 #r "bin/TheGamma.Data.dll"
 #r "bin/TheGamma.Json.dll"
+#r "bin/TheGamma.Html.dll"
 #r "bin/TheGamma.World.dll"
 
 #load "../client/series.fs"
