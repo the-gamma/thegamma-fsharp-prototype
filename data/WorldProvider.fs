@@ -59,23 +59,23 @@ module WorldBankGenerator =
   let private getCountries region = async {
     let region = match region with None -> "" | Some region -> "&region=" + region
     let! first = Cache.asyncDownload("http://api.worldbank.org/country?per_page=100&format=json" + region) 
-    let first = Countries.Parse(first)          
+    let first = try Countries.Parse(first) with e -> failwithf "Failed to parse JSON from: %s" ("http://api.worldbank.org/country?per_page=100&format=json" + region) 
     let! records = 
       [ for p in 1 .. first.Record.Pages -> async {
           let url = "http://api.worldbank.org/country?per_page=100&format=json&page=" + (string p) + region
           let! data = Cache.asyncDownload url
-          let page = Countries.Parse(data)
+          let page = try Countries.Parse(data) with e -> failwithf "Failed to parse JSON from: %s" url 
           return page.Array } ] |> Async.Parallel
     return Array.concat records }
   
   let private getIndicators() = async {
     let! first = Cache.asyncDownload("http://api.worldbank.org/indicator?per_page=100&format=json")
-    let first = Indicators.Parse(first)
+    let first = try Indicators.Parse(first) with e -> failwithf "Failed to parse JSON from: %s" ("http://api.worldbank.org/indicator?per_page=100&format=json") 
     let! records = 
       [ for p in 1 .. first.Record.Pages -> async {
           let url = "http://api.worldbank.org/indicator?per_page=100&format=json&page=" + (string p)
           let! data = Cache.asyncDownload url
-          let page = Indicators.Parse(data)
+          let page = try Indicators.Parse(data) with e -> failwithf "Failed to parse JSON from: %s" url
           return page.Array } ] |> Async.Parallel
     return Array.concat records }
 
@@ -89,7 +89,7 @@ module WorldBankGenerator =
     async { 
       let! countries = getCountries None
       let! pop = Cache.asyncDownload "http://api.worldbank.org/countries/indicators/SP.POP.TOTL?per_page=1000&date=2010:2010&format=json"
-      let pop = Data.Parse(pop)
+      let pop = try Data.Parse(pop) with e -> failwithf "Failed to parse JSON from: %s" "http://api.worldbank.org/countries/indicators/SP.POP.TOTL?per_page=1000&date=2010:2010&format=json"
       let popLookup = dict [ for c in pop.Array -> c.Country.Value, c.Value ]
       let inline asStr v = match v with Some v -> System.Web.HttpUtility.JavaScriptStringEncode(string v) | _ -> ""
       return
