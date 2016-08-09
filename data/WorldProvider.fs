@@ -15,7 +15,7 @@ open TheGamma.Series
 //
 // --------------------------------------------------------------------------------------------------------------------
 
-type Indicators = JsonProvider<"http://api.worldbank.org/indicator?per_page=120&format=json">
+type Indicators = JsonProvider<"http://api.worldbank.org/indicator?per_page=150&format=json">
 type Countries = JsonProvider<"http://api.worldbank.org/country?per_page=100&format=json">
 type Regions = JsonProvider<"http://api.worldbank.org/regions?per_page=100&format=json">
 type Data = JsonProvider<"http://api.worldbank.org/countries/indicators/SP.POP.TOTL?per_page=1000&date=2010:2010&format=json">
@@ -179,7 +179,7 @@ type public WorldBank(cfg:TypeProviderConfig) as this =
             |> sprintf "<p><strong>Topics:</strong> %s</p>"
         sprintf 
           "<h2>%s</h2><p>%s</p><p><strong>Source:</strong> %s</p> %s" 
-          indicator.Name indicator.SourceNote indicator.SourceOrganization topics
+          indicator.Name (defaultArg indicator.SourceNote "") (defaultArg indicator.SourceOrganization "") topics
           |> prop.AddXmlDoc
         prop.GetterCode <- fun (Singleton this) -> upcast getter (Expr.Cast<'T>(this)) <@ id @> <@ name @>
         prop ]
